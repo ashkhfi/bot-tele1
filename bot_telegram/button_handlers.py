@@ -68,7 +68,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         # ]
         # reply_markup = InlineKeyboardMarkup(keyboard)
         # await query.edit_message_text(f"Please select a category Chart data of site '{user_state[user]['site_name']}':", reply_markup=reply_markup)
-#a
+
 
     elif query.data == 'summarize':
         user_state[user]['menu'] = 'summary'
