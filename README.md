@@ -32,7 +32,6 @@ This is a Python-based Telegram bot. Follow the instructions below to set up the
    - On **Windows**, run:
 
      ```bash
-     .
 venv/Scripts/activate.bat
      ```
 
