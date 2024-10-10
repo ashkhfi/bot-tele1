@@ -33,7 +33,7 @@ This is a Python-based Telegram bot. Follow the instructions below to set up the
 
      ```bash
      .
-env\Scripts ctivate
+venv/Scripts/activate.bat
      ```
 
    - On **Linux/macOS**, run:
