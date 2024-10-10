@@ -2,14 +2,14 @@
 from config import connect_to_postgres
 
 def set_context(conn, site_name):
-    query = f"""
+    query = """
     SELECT *
     FROM magang_dataset
-    WHERE site_name = '{site_name}';
+    WHERE site_name ILIKE %s;
     """
     try:
         cursor = conn.cursor()
-        cursor.execute(query)
+        cursor.execute(query, (site_name,))
         data = cursor.fetchone()  # Mengambil hanya satu baris
 
         if data:

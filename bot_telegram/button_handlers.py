@@ -36,7 +36,8 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text(f"{coordinates}")
             # Inline keyboard for maps
             keyboard = [
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
+                 InlineKeyboardButton("Back to Start", callback_data='start')]  
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
@@ -47,7 +48,8 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_state[user]['menu'] = 'chart'
         await query.message.reply_text("This feature is still coming soon")
         keyboard = [
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
+          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
+           InlineKeyboardButton("Back to Start", callback_data='start')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
@@ -72,7 +74,8 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_state[user]['menu'] = 'summary'
         await query.message.reply_text("This feature is still coming soon")
         keyboard = [
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
+          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
+           InlineKeyboardButton("Back to Start", callback_data='start')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
@@ -104,7 +107,8 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         formatted_text = process_data(user_state[user]['context'], return_type='profile')
         await query.message.reply_text(formatted_text, parse_mode=ParseMode.HTML)
         keyboard = [
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
+          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
+           InlineKeyboardButton("Back to Start", callback_data='start')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
@@ -113,7 +117,8 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         formatted_text = process_data(user_state[user]['context'], return_type='statistical')
         await query.message.reply_text(formatted_text, parse_mode=ParseMode.HTML)
         keyboard = [
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
+          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
+           InlineKeyboardButton("Back to Start", callback_data='start')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)

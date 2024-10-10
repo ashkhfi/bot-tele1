@@ -48,4 +48,4 @@ async def end(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_id = update.effective_user.id
     if user_id in user_state:  # Menghapus user dari user_state jika ada
         del user_state[user_id]  # Hapus status user dari dictionary
-    await update.message.reply_text("Sesi kamu telah diakhiri.")
+    await update.message.reply_text("Your session has ended. Please use /start to begin again")
