@@ -95,28 +95,36 @@ async def handle_message(update: Update, context):
 
     if user_state[user]["menu"] == "home":
         message = update.message.text
-
-        # Cek apakah pengguna baru saja kembali ke menu home
+        # Membuat keyboard menu
         keyboard = [
-                [InlineKeyboardButton("Profile", callback_data='profile_site'),
-                InlineKeyboardButton("Stats", callback_data='statistics')],
-                [InlineKeyboardButton("Maps", callback_data='maps')],
-                [InlineKeyboardButton("Chart", callback_data='chart_site'),
-                InlineKeyboardButton("Summary", callback_data='summarize')],
-                [InlineKeyboardButton("Back to Start", callback_data='start')]
-            ]
+            [InlineKeyboardButton("Profile", callback_data='profile_site'),
+            InlineKeyboardButton("Stats", callback_data='statistics'),
+            InlineKeyboardButton("Maps", callback_data='maps')],
+            [InlineKeyboardButton("Chart", callback_data='chart_site'),
+            InlineKeyboardButton("Summary", callback_data='summarize')],
+            [InlineKeyboardButton("Back to Start", callback_data='start')]
+        ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        if user_state[user].get("just_returned_home", False):
+        
+    # Cek jika pengguna baru saja kembali ke home
+    if user_state[user].get("just_returned_home", False):
+        await update.message.reply_text(
+            f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:", 
+            reply_markup=reply_markup
+        )
+        user_state[user]["just_returned_home"] = False
 
-
-            # Tampilkan pesan pilihan menu
+    # Jika pengguna mengetikkan sesuatu selain nama site, coba jawab pertanyaan dulu
+    elif message and message != user_state[user]['site_name']:
+        answer = answer_question(message, user_state[user]['context'])
+        
+        # Jika bot menemukan jawaban, kirimkan jawaban tersebut
+        if answer:
+            await update.message.reply_text(answer)
+        else:
+            # Jika tidak ada jawaban, tetap tampilkan inline keyboard
             await update.message.reply_text(
                 f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:", 
                 reply_markup=reply_markup
             )
-            user_state[user]["just_returned_home"] = False
 
-        elif message and message != user_state[user]['site_name']:
-            await update.message.reply_text(
-                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:", 
-                reply_markup=reply_markup)
