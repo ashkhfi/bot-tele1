@@ -23,8 +23,8 @@ This is a Python-based Telegram bot. Follow the instructions below to set up the
    Navigate to the project directory and create a virtual environment:
 
    ```bash
-   cd bot-telegram
-   virtualenv venv
+   python -m venv venv
+
    ```
 
 3. **Activate the Virtual Environment**
