@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 # Deklarasi variabel global
 user_state = {}
 authorized_users = set()
-PASSWORD_1 = "ioh"
+PASSWORD_1 = "IOH4Indonesia"
 PASSWORD_2 = "indosat"
 
 def main():
