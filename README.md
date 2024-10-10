@@ -15,7 +15,7 @@ This is a Python-based Telegram bot. Follow the instructions below to set up the
    First, clone this repository to your local machine using Git:
 
    ```bash
-   git clone https://github.com/ashkhfi/bot-telegram.git
+   https://github.com/ashkhfi/bot-tele1
    ```
 
 2. **Create a Virtual Environment**
