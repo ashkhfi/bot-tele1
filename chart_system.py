@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.interpolate import make_interp_spline
 import numpy as np
-
+ 
 
 def plot_data(df, data, title):
     # Konversi kolom 'date' ke format datetime
