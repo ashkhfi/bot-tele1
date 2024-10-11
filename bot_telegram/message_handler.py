@@ -3,12 +3,14 @@ from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ContextTypes
 from datetime import datetime, timezone
 import logging
+import pytz
 from utils import check_password, answer_question_statistik, answer_question_profil
 from qa_system import answer_question
 from config import connect_to_postgres
 from data_handler import set_context
 
 # Konfigurasi logger
+timezone = pytz.timezone("Asia/Jakarta")
 logger = logging.getLogger(__name__)
 
 async def handle_message(update: Update, context):
@@ -16,11 +18,12 @@ async def handle_message(update: Update, context):
     user = update.message.from_user.id
     user_id = update.message.from_user.id
     user_message = update.message.text.lower()  # Mengubah ke huruf kecil untuk mencocokkan
-    now = datetime.now(timezone.utc)
+    # now = datetime.now(timezone.utc)
+    now = datetime.now(timezone)
     formatted_time = now.strftime("%d-%m-%Y %H:%M:%S")
 
     valid_queries = {
-        "site class?": "CRITICAL",
+        "site class?": "B",
         # Tambahkan pertanyaan lain yang valid di sini
     }
 
