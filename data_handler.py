@@ -55,12 +55,14 @@ def get_data_chart(conn, site_name, interval ):
     cursor = conn.cursor()
 
     # Query untuk mendapatkan satu data per tanggal berdasarkan enodeb_name
+    sitename = site_name.upper()
+
     sql = f"""
     SELECT *
     FROM magang_datachart
-    WHERE DATE(date) >= CURRENT_DATE - INTERVAL '30 days'
-      AND DATE(date) <= CURRENT_DATE
-      AND enodeb_name = '{site_name}';
+    WHERE DATE(date) >= CURRENT_DATE - INTERVAL '{interval} days'
+    AND DATE(date) < CURRENT_DATE - INTERVAL '1 day'
+      AND enodeb_name = '{sitename}';
     """
 
 

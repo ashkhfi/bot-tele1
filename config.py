@@ -5,6 +5,8 @@ from logging.handlers import RotatingFileHandler
 from datetime import datetime
 
 # Fungsi untuk custom log formatting ke CSV
+
+timezone = pytz.timezone("Asia/Jakarta")  # Ganti dengan zona waktu Anda
 class CsvFormatter(logging.Formatter):
     def format(self, record):
         now = datetime.now(timezone)

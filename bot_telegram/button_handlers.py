@@ -190,6 +190,14 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             with open('chart.jpg', 'rb') as chart_file:
                 await context.bot.send_photo(chat_id=query.message.chat_id, photo=chart_file)
             os.remove('chart.jpg')
+             # Tambahkan keyboard setelah mengirim chart
+            keyboard = [
+                [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
+                InlineKeyboardButton("Back to Start", callback_data='start')],
+            ]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="Failed to generate chart. Please try again.")
 
@@ -204,6 +212,14 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             with open('chart.jpg', 'rb') as chart_file:
                 await context.bot.send_photo(chat_id=query.message.chat_id, photo=chart_file)
             os.remove('chart.jpg')
+             # Tambahkan keyboard setelah mengirim chart
+            keyboard = [
+                [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
+                InlineKeyboardButton("Back to Start", callback_data='start')]
+            ]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="Failed to generate chart. Please try again.")
 
@@ -217,6 +233,14 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             with open('chart.jpg', 'rb') as chart_file:
                 await context.bot.send_photo(chat_id=query.message.chat_id, photo=chart_file)
             os.remove('chart.jpg')
+             # Tambahkan keyboard setelah mengirim chart
+            keyboard = [
+                [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
+                [InlineKeyboardButton("Back to Start", callback_data='start'),
+                InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
+            ]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="Failed to generate chart. Please try again.")
 
@@ -230,5 +254,13 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             with open('chart.jpg', 'rb') as chart_file:
                 await context.bot.send_photo(chat_id=query.message.chat_id, photo=chart_file)
             os.remove('chart.jpg')
+             # Tambahkan keyboard setelah mengirim chart
+            keyboard = [
+                [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
+                InlineKeyboardButton("Back to Start", callback_data='start')]
+            ]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="Failed to generate chart. Please try again.")
