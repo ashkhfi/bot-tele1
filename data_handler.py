@@ -47,3 +47,40 @@ def set_context(conn, site_name):
         return f"error: {str(e)}"
 
 
+
+import pandas as pd
+
+def get_data_chart(conn, site_name, interval ):
+    # Membuat objek cursor dari koneksi
+    cursor = conn.cursor()
+
+    # Query untuk mendapatkan satu data per tanggal berdasarkan enodeb_name
+    sql = f"""
+    SELECT *
+    FROM magang_datachart
+    WHERE DATE(date) >= CURRENT_DATE - INTERVAL '30 days'
+      AND DATE(date) <= CURRENT_DATE
+      AND enodeb_name = '{site_name}';
+    """
+
+
+    try:
+        # Menjalankan query dengan parameter
+        cursor.execute(sql, (site_name,))
+
+        # Mengambil hasil
+        results = cursor.fetchall()
+
+        # Mengambil nama kolom
+        columns = [desc[0] for desc in cursor.description]
+
+        # Mengonversi hasil menjadi DataFrame
+        df = pd.DataFrame(results, columns=columns)
+
+        return df
+    except Exception as e:
+        print(f'Terjadi kesalahan: {e}')
+        return pd.DataFrame()
+    finally:
+        # Menutup cursor
+        cursor.close()
