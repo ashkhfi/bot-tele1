@@ -40,11 +40,11 @@ setup_logging()
 def connect_to_postgres():
     try:
         conn = psycopg2.connect(
-            user="postgres",  # Ganti dengan username PostgreSQL
-            password="Solo987@!",  # Ganti dengan password PostgreSQL
-            host="1.tcp.ap.ngrok.io",  # Ganti dengan host yang benar
-            port="21674",  # Ganti dengan port yang benar
-            database="npmcj"  # Ganti dengan nama database
+            user="*",  # Ganti dengan username PostgreSQL
+            password="*!",  # Ganti dengan password PostgreSQL
+            host="*",  # Ganti dengan host yang benar
+            port="**",  # Ganti dengan port yang benar
+            database="**"  # Ganti dengan nama database
         )
         return conn
     except Exception as e:
