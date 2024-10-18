@@ -3320,3 +3320,64 @@
 2024-10-18 13:40:28 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
 2024-10-18 13:40:28 WIB,INFO,Application is stopping. This might take a moment.
 2024-10-18 13:40:28 WIB,INFO,Application.stop() complete
+2024-10-18 13:40:42 WIB,INFO,Bot is polling...
+2024-10-18 13:40:43 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getMe "HTTP/1.1 200 OK"
+2024-10-18 13:40:43 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/deleteWebhook "HTTP/1.1 200 OK"
+2024-10-18 13:40:43 WIB,INFO,Application started
+2024-10-18 13:40:54 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:04 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:10 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:12 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/sendMessage "HTTP/1.1 200 OK"
+2024-10-18 13:41:15 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:15 WIB,WARNING,User 7282195436 asked an invalid query at 18-10-2024 13:41:15: indosat
+2024-10-18 13:41:16 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/sendMessage "HTTP/1.1 200 OK"
+2024-10-18 13:41:17 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/sendMessage "HTTP/1.1 200 OK"
+2024-10-18 13:41:25 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:25 WIB,INFO,Received inline query at 18-10-2024 13:41:25: w
+2024-10-18 13:41:26 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:26 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:26 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:27 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/answerInlineQuery "HTTP/1.1 400 Bad Request"
+2024-10-18 13:41:27 WIB,ERROR,Update Update(inline_query=InlineQuery(chat_type='sender', from_user=User(first_name='Ce', id=7282195436, is_bot=False, language_code='id', last_name='Po'), id='3606675134271174850', query='w'), update_id=358844733) caused error Too many inline query results specified
+2024-10-18 13:41:27 WIB,INFO,Received inline query at 18-10-2024 13:41:27: wa
+2024-10-18 13:41:28 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/answerInlineQuery "HTTP/1.1 400 Bad Request"
+2024-10-18 13:41:28 WIB,ERROR,Update Update(inline_query=InlineQuery(chat_type='sender', from_user=User(first_name='Ce', id=7282195436, is_bot=False, language_code='id', last_name='Po'), id='3606675132675684352', query='wa'), update_id=358844734) caused error Too many inline query results specified
+2024-10-18 13:41:28 WIB,INFO,Received inline query at 18-10-2024 13:41:28: war
+2024-10-18 13:41:28 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/answerInlineQuery "HTTP/1.1 400 Bad Request"
+2024-10-18 13:41:28 WIB,ERROR,Update Update(inline_query=InlineQuery(chat_type='sender', from_user=User(first_name='Ce', id=7282195436, is_bot=False, language_code='id', last_name='Po'), id='3606675130622739200', query='war'), update_id=358844735) caused error Too many inline query results specified
+2024-10-18 13:41:28 WIB,INFO,Received inline query at 18-10-2024 13:41:28: waru
+2024-10-18 13:41:28 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:28 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/answerInlineQuery "HTTP/1.1 200 OK"
+2024-10-18 13:41:28 WIB,INFO,Received inline query at 18-10-2024 13:41:28: warung
+2024-10-18 13:41:29 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/answerInlineQuery "HTTP/1.1 200 OK"
+2024-10-18 13:41:29 WIB,INFO,Received inline query at 18-10-2024 13:41:29: warun
+2024-10-18 13:41:29 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/answerInlineQuery "HTTP/1.1 200 OK"
+2024-10-18 13:41:33 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:33 WIB,WARNING,User 7282195436 asked an invalid query at 18-10-2024 13:41:33: kaliwarengwarungasem_pl
+2024-10-18 13:41:35 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/sendMessage "HTTP/1.1 200 OK"
+2024-10-18 13:41:37 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:37 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/answerCallbackQuery "HTTP/1.1 200 OK"
+2024-10-18 13:41:37 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/sendMessage "HTTP/1.1 200 OK"
+2024-10-18 13:41:38 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/sendMessage "HTTP/1.1 200 OK"
+2024-10-18 13:41:41 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:41 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/answerCallbackQuery "HTTP/1.1 200 OK"
+2024-10-18 13:41:42 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/editMessageText "HTTP/1.1 200 OK"
+2024-10-18 13:41:43 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:43 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/answerCallbackQuery "HTTP/1.1 200 OK"
+2024-10-18 13:41:45 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/sendMessage "HTTP/1.1 200 OK"
+2024-10-18 13:41:45 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/sendMessage "HTTP/1.1 200 OK"
+2024-10-18 13:41:53 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:41:53 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/answerCallbackQuery "HTTP/1.1 200 OK"
+2024-10-18 13:41:54 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/editMessageText "HTTP/1.1 200 OK"
+2024-10-18 13:42:03 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:42:13 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:42:23 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:42:33 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:42:44 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:42:54 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:43:04 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:43:14 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:43:25 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:43:35 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:43:45 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 13:43:55 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
