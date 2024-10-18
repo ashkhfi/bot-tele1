@@ -5,7 +5,8 @@ from qa_system import answer_question
 from utils import process_data
 from config import connect_to_postgres
 from chart_system import plot_data
-from data_handler import get_data_chart
+from data_handler import get_data_chart, get_data_sumarize
+from sumarize_system import summarize_issues
 import os
 
 async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -50,26 +51,41 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif query.data == 'chart_site':
         user_state[user]['menu'] = 'chart'
-
-        keyboard = [
-          [InlineKeyboardButton("7 Days", callback_data='7_days'),
-           InlineKeyboardButton("14 Days", callback_data='14_days'),
-           InlineKeyboardButton("1 Month", callback_data='1_month')],
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-           InlineKeyboardButton("Back to Start", callback_data='start')]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await query.message.reply_text("Please select a time range", reply_markup=reply_markup)
-    elif query.data == 'summarize':
-        user_state[user]['menu'] = 'summary'
-        await query.message.reply_text("This feature is still coming soon")
+        await query.message.reply_text("This feature is still maintenance")
         keyboard = [
           [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
            InlineKeyboardButton("Back to Start", callback_data='start')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
+        # keyboard = [
+        #   [InlineKeyboardButton("7 Days", callback_data='7_days'),
+        #    InlineKeyboardButton("14 Days", callback_data='14_days'),
+        #    InlineKeyboardButton("1 Month", callback_data='1_month')],
+        #   [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
+        #    InlineKeyboardButton("Back to Start", callback_data='start')]
+        # ]
+        # reply_markup = InlineKeyboardMarkup(keyboard)
+        # await query.message.reply_text("Please select a time range", reply_markup=reply_markup)
+    elif query.data == 'summarize':
+        user_state[user]['menu'] = 'summary'
+        conn = connect_to_postgres()
+        if conn:
+            df = get_data_sumarize(conn, user_state[user]['site_name'])  # Mendapatkan data 7 hari terakhir
+            if df.empty:
+                await query.message.reply_text("No data found")
+            else:
+                a = summarize_issues(df)
+                await query.message.reply_text(a['message'])
+        else:
+            await query.message.reply_text("Failed to connect database")
 
+        keyboard = [
+          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
+           InlineKeyboardButton("Back to Start", callback_data='start')]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
 
     elif query.data == 'back_to_menu':
         user_state[user]['menu'] = 'home'

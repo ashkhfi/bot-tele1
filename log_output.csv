@@ -280,3 +280,20 @@
 2024-10-18 14:51:56 WIB,WARNING,User 1413832213 asked an invalid query at 18-10-2024 14:51:56: krakahan_pl
 2024-10-18 14:51:58 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/sendMessage "HTTP/1.1 200 OK"
 2024-10-18 14:52:07 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 15:11:39 WIB,ERROR,Gagal terhubung ke database: invalid integer value "**" for connection option "port"
+
+2024-10-18 15:16:54 WIB,INFO,Bot is polling...
+2024-10-18 15:16:54 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getMe "HTTP/1.1 200 OK"
+2024-10-18 15:16:55 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/deleteWebhook "HTTP/1.1 200 OK"
+2024-10-18 15:16:55 WIB,INFO,Application started
+2024-10-18 15:16:59 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 409 Conflict"
+2024-10-18 15:16:59 WIB,ERROR,Update None caused error Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-10-18 15:17:05 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 409 Conflict"
+2024-10-18 15:17:05 WIB,ERROR,Update None caused error Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-10-18 15:17:12 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 409 Conflict"
+2024-10-18 15:17:12 WIB,ERROR,Update None caused error Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-10-18 15:17:19 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 409 Conflict"
+2024-10-18 15:17:19 WIB,ERROR,Update None caused error Conflict: terminated by other getUpdates request; make sure that only one bot instance is running
+2024-10-18 15:17:29 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I/getUpdates "HTTP/1.1 200 OK"
+2024-10-18 15:17:29 WIB,INFO,Application is stopping. This might take a moment.
+2024-10-18 15:17:29 WIB,INFO,Application.stop() complete
