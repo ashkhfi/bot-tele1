@@ -4,6 +4,14 @@ from datetime import datetime, timezone
 import logging
 import pytz
 
+# Konfigurasi logger
+timezone = pytz.timezone("Asia/Jakarta")
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
+
 async def inline_query_handler(update: Update, context):
     # Ambil user_id dari update
     from main import user_state
@@ -26,8 +34,9 @@ async def inline_query_handler(update: Update, context):
                     input_message_content=InputTextMessageContent(row['site_name'])  # Konten pesan
                 )
             )
-
-    now = datetime.now(timezone.utc)
+    utc_now = datetime.now(pytz.utc)
+    jakarta_tz = pytz.timezone('Asia/Jakarta')
+    now = utc_now.astimezone(jakarta_tz)
     formatted_time = now.strftime("%d-%m-%Y %H:%M:%S")
 
     # Menggunakan logging dengan timestamp yang telah diformat

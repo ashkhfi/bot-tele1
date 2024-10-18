@@ -86,3 +86,42 @@ def get_data_chart(conn, site_name, interval ):
     finally:
         # Menutup cursor
         cursor.close()
+
+def get_data_sumarize(conn, site_name ):
+    # Membuat objek cursor dari koneksi
+        cursor = conn.cursor()
+
+        # Query untuk mendapatkan satu data per tanggal berdasarkan enodeb_name
+        sitename = site_name.upper()
+
+        sql = f"""
+            WITH latest_date AS (
+                SELECT MAX(date) AS date
+                FROM magang_datachart
+                WHERE enodeb_name = '{sitename}'
+            )
+            SELECT *
+            FROM magang_datachart
+            WHERE date = (SELECT date FROM latest_date)
+            AND enodeb_name = '{sitename}';
+        """
+        try:
+            # Menjalankan query dengan parameter
+            cursor.execute(sql, (site_name,))
+
+            # Mengambil hasil
+            results = cursor.fetchall()
+
+            # Mengambil nama kolom
+            columns = [desc[0] for desc in cursor.description]
+
+            # Mengonversi hasil menjadi DataFrame
+            df = pd.DataFrame(results, columns=columns)
+
+            return df
+        except Exception as e:
+            print(f'Terjadi kesalahan: {e}')
+            return pd.DataFrame()
+        finally:
+            # Menutup cursor
+            cursor.close()

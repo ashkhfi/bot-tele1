@@ -11,6 +11,10 @@ from data_handler import set_context
 
 # Konfigurasi logger
 timezone = pytz.timezone("Asia/Jakarta")
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
 async def handle_message(update: Update, context):
@@ -127,7 +131,7 @@ async def handle_message(update: Update, context):
         else:
             # Jika tidak ada jawaban, tetap tampilkan inline keyboard
             await update.message.reply_text(
-                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:", 
+                f"Please choose on/e of the menu below to get information about {user_state[user]['site_name']}:", 
                 reply_markup=reply_markup
             )
 

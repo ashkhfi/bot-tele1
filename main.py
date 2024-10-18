@@ -7,9 +7,14 @@ from bot_telegram.commands import end,start
 from bot_telegram.inline_query_handler import inline_query_handler
 from bot_telegram.message_handler import handle_message
 from utils import error_handler
-
+import pytz
 
 # Inisialisasi logger
+timezone = pytz.timezone("Asia/Jakarta")
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
 logger = logging.getLogger(__name__)
 
 # Deklarasi variabel global

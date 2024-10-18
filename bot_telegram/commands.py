@@ -1,9 +1,18 @@
 # Import library yang diperlukan
 from telegram import Update
 from telegram.ext import ContextTypes
+from datetime import datetime, timezone
+import logging
+import pytz
 
+# Konfigurasi logger
+timezone = pytz.timezone("Asia/Jakarta")
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger(__name__)
 
-# Fungsi untuk menangani perintah /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     from main import user_state, authorized_users  # Impor di dalam fungsi
     from config import connect_to_postgres
