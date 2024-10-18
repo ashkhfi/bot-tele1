@@ -27,7 +27,7 @@ def main():
     application.add_handler(InlineQueryHandler(inline_query_handler))  # Menambahkan handler untuk inline query
     application.add_handler(CommandHandler("end", end))  # Pastikan end didefinisikan
     application.add_error_handler(error_handler)  # Add this line to register the error handler
-
+   
 
     logger.info("Bot is polling...")
     application.run_polling()
