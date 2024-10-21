@@ -19,7 +19,7 @@ PASSWORD_1 = "IOH4Indonesia"
 PASSWORD_2 = "indosat"
 
 def main():
-    application = ApplicationBuilder().token("7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I").build()
+    application = ApplicationBuilder().token("*").build()
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button))
