@@ -12,11 +12,11 @@ logger = logging.getLogger(__name__)
 
 # Fungsi untuk mengimpor variabel yang diperlukan dari main
 def get_main_variables():
-    from main import user_state, authorized_users, PASSWORD_1, PASSWORD_2
-    return user_state, authorized_users, PASSWORD_1, PASSWORD_2
+    from main import user_state, authorized_users, PASSWORD_1, PASSWORD_2, PASSWORD_3
+    return user_state, authorized_users, PASSWORD_1, PASSWORD_2, PASSWORD_3
 
 async def check_password(update: Update, context):
-    user_state, authorized_users, PASSWORD_1, PASSWORD_2 = get_main_variables()
+    user_state, authorized_users, PASSWORD_1, PASSWORD_2, PASSWORD_3 = get_main_variables()
     
     # Ambil user_id dari pesan
     user_id = update.message.from_user.id
@@ -24,12 +24,12 @@ async def check_password(update: Update, context):
 
     # Periksa apakah user sedang menunggu password
     if user_state[user_id]["waiting_for_password"]:
-        if user_password == PASSWORD_1 or user_password == PASSWORD_2:
+        if user_password == PASSWORD_1 or user_password == PASSWORD_2 or user_password == PASSWORD_3:
             # Tambahkan user ke daftar authorized_users
             authorized_users.add(user_id)
             user_state[user_id]["waiting_for_password"] = False
             await update.message.reply_text("Password accepted! You now have access.")
-            # await update.message.reply_text("The question only in english.")
+            await update.message.reply_text("Chat is only in english!")
             await start(update, context)  # Panggil start atau proses lainnya
         else:
             await update.message.reply_text("Incorrect password. Please try again:")
