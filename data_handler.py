@@ -51,10 +51,7 @@ def set_context(conn, site_name):
 import pandas as pd
 
 def get_data_chart(conn, site_name, interval ):
-    # Membuat objek cursor dari koneksi
     cursor = conn.cursor()
-
-    # Query untuk mendapatkan satu data per tanggal berdasarkan enodeb_name
     sitename = site_name.upper()
 
     sql = f"""

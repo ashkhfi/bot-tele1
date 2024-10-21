@@ -47,7 +47,7 @@ def plot_data(df, data, title):
     
 
     # Simpan grafik sebagai PNG
-    plt.savefig(f"chart.jpg", format='jpg', dpi=300)  # Simpan sebagai file PNG
+    plt.savefig(f"chart.jpg", format='jpg', dpi=200)  # Simpan sebagai file PNG
 
 
 # Contoh pemanggilan fungsi

@@ -12,6 +12,21 @@ async def inline_query_handler(update: Update, context):
     print(f"Received inline query: {query}")  # Debugging line
 
     results = []
+    if query.lower() == "chart":
+        results.append(
+            InlineQueryResultArticle(
+                id="1",
+                title="Data",
+                input_message_content=InputTextMessageContent("Menghasilkan chart PRB..."),
+                description="Dapatkan data chart PRB",
+            ),
+            InlineQueryResultArticle(
+                id="1",
+                title="Chart",
+                input_message_content=InputTextMessageContent("Menghasilkan chart PRB..."),
+                description="Dapatkan data chart PRB",
+            )
+        )
 
     if query and 'df' in user_state[user]:
         df = user_state[user]['df']

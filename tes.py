@@ -5,11 +5,12 @@ from sumarize_system import summarize_issues
 
 conn = connect_to_postgres()
 if conn:
-    df = get_data_sumarize(conn, 'lte_tampe_pl')  # Mendapatkan data 7 hari terakhir
+    df = get_data_chart(conn, 'lte_tampe_pl', 14)  # Mendapatkan data 7 hari terakhir
     if df.empty:
         print("Tidak ada data yang ditemukan.")
     else:
-        a = summarize_issues(df)
-        print(a['message'])
+        print("ada data yang ditemukan.")
+        # a = summarize_issues(df)
+        # print(a['message'])
 else:
     print("Terjadi kesalahan koneksi")

@@ -6,7 +6,9 @@ from datetime import datetime
 
 # Fungsi untuk custom log formatting ke CSV
 
-timezone = pytz.timezone("Asia/Jakarta")  # Ganti dengan zona waktu Anda
+timezone = pytz.timezone("Asia/Jakarta")
+logger = logging.getLogger(__name__)
+
 class CsvFormatter(logging.Formatter):
     def format(self, record):
         now = datetime.now(timezone)
@@ -40,11 +42,11 @@ setup_logging()
 def connect_to_postgres():
     try:
         conn = psycopg2.connect(
-            user="*",  # Ganti dengan username PostgreSQL
-            password="*!",  # Ganti dengan password PostgreSQL
-            host="*",  # Ganti dengan host yang benar
-            port="**",  # Ganti dengan port yang benar
-            database="**"  # Ganti dengan nama database
+            user="postgres",  # Ganti dengan username PostgreSQL
+            password="Solo987@!",  # Ganti dengan password PostgreSQL
+            host="1.tcp.ap.ngrok.io",  # Ganti dengan host yang benar
+            port="21674",  # Ganti dengan port yang benar
+            database="npmcj"  # Ganti dengan nama database
         )
         return conn
     except Exception as e:

@@ -3,9 +3,11 @@ import logging
 from telegram import Update
 from telegram.ext import ContextTypes
 import re
+import datetime
+import os
+import csv
 from bot_telegram.commands import start
 
-# Konfigurasi logger
 logger = logging.getLogger(__name__)
 
 # Fungsi untuk mengimpor variabel yang diperlukan dari main
@@ -27,6 +29,7 @@ async def check_password(update: Update, context):
             authorized_users.add(user_id)
             user_state[user_id]["waiting_for_password"] = False
             await update.message.reply_text("Password accepted! You now have access.")
+            # await update.message.reply_text("The question only in english.")
             await start(update, context)  # Panggil start atau proses lainnya
         else:
             await update.message.reply_text("Incorrect password. Please try again:")
@@ -104,3 +107,27 @@ def is_coordinate(coord_str):
     pattern = r'^-?\s*[1-8]?\s*[0-9]\s*(?:\.\s*\d+)?\s*,\s*-?\s*(?:[1-9]?[0-9]|1[0-7][0-9]|180)\s*(?:\.\s*\d+)?$'
     match = re.match(pattern, coord_str)
     return bool(match)
+
+
+def log_to_csv(user, question, answer):
+        # Nama file CSV
+        filename = 'user_questions_log.csv'
+
+        # Cek apakah file sudah ada, jika tidak, buat file dengan header
+        file_exists = os.path.isfile(filename)
+        
+        # Ambil tanggal saat ini
+        current_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Mengambil tanggal dan waktu saat ini
+        print(current_date)  # Menampilkan hasil
+        
+        # Buka atau buat file CSV
+        with open(filename, mode='a', newline='') as file:
+            writer = csv.writer(file)
+            
+            # Jika file baru dibuat, tuliskan header
+            if not file_exists:
+                writer.writerow(['User', 'Date', 'Question', 'Answer'])
+            
+            # Tulis data pengguna, tanggal, pertanyaan, dan jawaban
+            writer.writerow([user, current_date, question, answer])
+            
