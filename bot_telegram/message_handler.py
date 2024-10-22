@@ -20,37 +20,8 @@ async def handle_message(update: Update, context):
     user_message = update.message.text.lower()  # Mengubah ke huruf kecil untuk mencocokkan
     # now = datetime.now(timezone.utc)
     now = datetime.now(timezone)
+    message = update.message.text
     formatted_time = now.strftime("%d-%m-%Y %H:%M:%S")
-
-    # valid_queries = {
-    #     "site class?": "B",
-    #     # Tambahkan pertanyaan lain yang valid di sini
-    # }
-
-    # # Cek apakah pertanyaan pengguna valid
-    # if user_message in valid_queries:
-    #     response = valid_queries[user_message]
-
-    #     # Log pertanyaan dan jawaban di console
-    #     logger.info(f"User {user_id} asked at {formatted_time}: {user_message}")
-    #     logger.info(f"Bot responded to {user_id} at {formatted_time}: {response}")
-
-    # # Cek apakah pertanyaan pengguna valid
-    # if user_message in valid_queries:
-    #     response = valid_queries[user_message]
-    #     # Log jawaban bot
-    #     logger.info(f"Bot responded to {user_id} at {formatted_time}: {response}")
-
-    #     # Kirim jawaban ke pengguna
-    #     await update.message.reply_text(response)
-    # else:
-    #     # Log bahwa input tidak valid
-    #     logger.warning(f"User {user_id} asked an invalid query at {formatted_time}: {user_message}")
-
-    # user_input = update.message.text
-    # question = user_input
-
-    # answer = answer_question_profil(question, user_state[user]['context'])
 
     if user_id not in authorized_users:
         await check_password(update, context)
@@ -109,32 +80,27 @@ async def handle_message(update: Update, context):
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
-    # Cek jika pengguna baru saja kembali ke home
+    if message and message != user_state[user]['site_name']:
+        question = update.message.text
+        answer = answer_question(message, user_state[user]['context'])
+        print(answer)
+        if answer:
+            await update.message.reply_text(answer)
+            
+            first_name = update.message.from_user.first_name  # Nama depan
+            last_name = update.message.from_user.last_name    # Nama belakang
+            user_name = f"{first_name} {last_name}"   
+            log_to_csv(user_name, question, answer)  
+
+        else:
+            await update.message.reply_text(
+                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                reply_markup=reply_markup
+            )
+
     if user_state[user].get("just_returned_home", False):
         await update.message.reply_text(
             f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:", 
             reply_markup=reply_markup
         )
         user_state[user]["just_returned_home"] = False
-
-    
-    if message and message != user_state[user]['site_name']:
-        # Proses untuk mendapatkan jawaban berdasarkan pertanyaan
-        answer = answer_question(message, user_state[user]['context'])
-        
-        # Jika bot menemukan jawaban, kirimkan jawaban tersebut
-        if answer:
-            await update.message.reply_text(answer)
-            
-            # Log ke CSV
-            first_name = update.message.from_user.first_name  # Nama depan
-            last_name = update.message.from_user.last_name    # Nama belakang
-            user_name = f"{first_name} {last_name}"   
-            log_to_csv(user_name, message, answer)  
-
-        else:
-            # Jika tidak ada jawaban, tetap tampilkan inline keyboard
-            await update.message.reply_text(
-                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
-                reply_markup=reply_markup
-            )
