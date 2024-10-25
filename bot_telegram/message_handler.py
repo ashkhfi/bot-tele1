@@ -4,7 +4,7 @@ from telegram.ext import ContextTypes
 from datetime import datetime, timezone
 import logging
 import pytz
-from utils import check_password, log_to_csv
+from utils import check_password, log_to_csv, log_to_spreadsheet
 from qa_system import answer_question
 from config import connect_to_postgres
 from data_handler import set_context
@@ -91,6 +91,7 @@ async def handle_message(update: Update, context):
             last_name = update.message.from_user.last_name    # Nama belakang
             user_name = f"{first_name} {last_name}"   
             log_to_csv(user_name, question, answer)  
+            log_to_spreadsheet(user_name, question, answer)  
 
         else:
             await update.message.reply_text(

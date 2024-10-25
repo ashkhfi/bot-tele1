@@ -2,3 +2,5 @@ nest_asyncio
 python-telegram-bot
 psycopg2
 pytz
+oauth2client
+gspread
