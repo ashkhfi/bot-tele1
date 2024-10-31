@@ -4,6 +4,7 @@ from telegram.ext import ContextTypes
 from datetime import datetime, timezone
 import logging
 import pytz
+import re
 from utils import check_password, log_to_csv, log_to_spreadsheet
 from qa_system import answer_question
 from config import connect_to_postgres
@@ -17,52 +18,63 @@ async def handle_message(update: Update, context):
     from main import user_state, authorized_users  # Impor di dalam fungsi
     user = update.message.from_user.id
     user_id = update.message.from_user.id
-    user_message = update.message.text.lower()  # Mengubah ke huruf kecil untuk mencocokkan
-    # now = datetime.now(timezone.utc)
-    now = datetime.now(timezone)
     message = update.message.text
-    formatted_time = now.strftime("%d-%m-%Y %H:%M:%S")
 
     if user_id not in authorized_users:
         await check_password(update, context)
         return
 
-    # if user_state[user]['menu'] == 'profil':
-    #     question = update.message.text
-    #     answer = answer_question(question, user_state[user]['context'])
-    #     keyboard = [
-    #       [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-    #        InlineKeyboardButton("Show All Data", callback_data='data_profil')]
-    #     ]
-    #     reply_markup = InlineKeyboardMarkup(keyboard)
-    #     if answer == "":
-    #         await update.message.reply_text("Sorry, I couldn't find an answer to your question.", reply_markup=reply_markup)
-    #     else:
-    #         await update.message.reply_text(answer, reply_markup=reply_markup)
-
-    # if user_state[user]['menu'] == 'stat':
-    #     question = update.message.text
-    #     answer = answer_question(question, user_state[user]['context'])
-    #     keyboard = [
-    #       [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-    #        InlineKeyboardButton("Show All Data", callback_data='data_statistik')]
-    #     ]
-    #     reply_markup = InlineKeyboardMarkup(keyboard)
-    #     await update.message.reply_text(answer, reply_markup=reply_markup)
-
     if user_state[user]['menu'] == 'start':
         conn = connect_to_postgres()
         if conn:
-            site_name = update.message.text
-            user_state[user]['site_name'] = site_name
-            user_state[user]['context'] = set_context(conn, site_name)
+            input_value = update.message.text.upper()  # Mengubah nilai input menjadi uppercase
+            print(f"Input diterima: {input_value}")
+            site_id_pattern = r'^\d{2}[A-Z]{3}\d{4}$'
+            if re.match(site_id_pattern, input_value):  
+                site_id = input_value
+                print(f"Mendeteksi site_id: {site_id}")
+                df = user_state[user]['df']
+                user_state[user]['site_id'] = site_id
+                print(user_state[user]['site_id'])
+                site_row = df[df['site_id'] == site_id]
+                if not site_row.empty:
+                    site_name = site_row.iloc[0]['site_name']  
+                    user_state[user]['site_name'] = site_name
+                    user_state[user]['context'] = set_context(conn, site_name)
+                    print(f"Site ID: {site_id} ditemukan. Nama situs: {site_name}")
+                else:
+                    await update.message.reply_text("Site not found")
+                    print('site name tidak ditemukan')
+                    print(f"Site ID: {site_id} tidak ditemukan dalam DataFrame.") 
+            else:
+                #menggunakan site name
+                site_name = input_value
+                user_state[user]['site_name'] = site_name
+
+                df = user_state[user]['df']
+                if df is not None and not df.empty:
+                    # Cari baris yang memiliki `site_name` yang sesuai
+                    matching_site = df[df['site_name'].str.lower() == site_name.lower()]
+
+                    if not matching_site.empty:
+                        site_id = matching_site.iloc[0]['site_id']
+                        user_state[user]['site_id'] = site_id
+                        print(f"Site ID {site_id} ditemukan untuk site_name '{site_name}'.")
+                    else:
+                        print(f"Tidak ada data yang cocok untuk site_name '{site_name}'.")
+                else:
+                    print("DataFrame pengguna tidak tersedia atau kosong.")
+
+                # Set context berdasarkan `site_name`
+                user_state[user]['context'] = set_context(conn, site_name)
+                print(f"Nama situs: {site_name} diterima dan konteks telah disetel.")
+
 
             if user_state[user]['context'] != "null":
                 user_state[user]['menu'] = 'home'
                 user_state[user]["just_returned_home"] = True
-            else:
+            else:       
                 await update.message.reply_text("site not found")
-
             conn.close()
         else:
             await update.message.reply_text("Connection to database failed.")
@@ -80,25 +92,29 @@ async def handle_message(update: Update, context):
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
-    if message and message != user_state[user]['site_name']:
+    if message and message != user_state[user]['site_name'] and message != user_state[user]['site_id']:
+        print(user_state[user]['site_name'])
+        print(user_state[user]['site_id'])
         question = update.message.text
-        answer = answer_question(message, user_state[user]['context'])
-        print(answer)
-        if answer:
-            await update.message.reply_text(answer)
-            
-            first_name = update.message.from_user.first_name  # Nama depan
-            last_name = update.message.from_user.last_name    # Nama belakang
-            user_name = f"{first_name} {last_name}"   
-            log_to_csv(user_name, question, answer)  
-            log_to_spreadsheet(user_name, question, answer)  
+        if question and question != user_state[user]['site_name'] and question != user_state[user]['site_id'] : 
+            answer = answer_question(message, user_state[user]['context'])
+            print(answer)
+            if answer:
+                await update.message.reply_text(answer)
+                
+                first_name = update.message.from_user.first_name  # Nama depan
+                last_name = update.message.from_user.last_name    # Nama belakang
+                user_name = f"{first_name} {last_name}"   
+                log_to_csv(user_name, question, answer)  
+                log_to_spreadsheet(user_name, question, answer, user_state[user]['password_access'])  
 
-        else:
-            await update.message.reply_text(
-                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
-                reply_markup=reply_markup
-            )
+            else:
+                await update.message.reply_text(
+                    f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                    reply_markup=reply_markup
+                )
 
+        
     if user_state[user].get("just_returned_home", False):
         await update.message.reply_text(
             f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:", 

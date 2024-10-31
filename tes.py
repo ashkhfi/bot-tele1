@@ -8,7 +8,7 @@ def log_to_spreadsheet(user, question, answer):
         scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
 
         # Autentikasi client menggunakan credential dari file JSON yang diberikan
-        creds = ServiceAccountCredentials.from_json_keyfile_name('tubes-iot-407403-9b90ebd06d9c.json', scope)
+        creds = ServiceAccountCredentials.from_json_keyfile_name('tubes-iot-407403-c1d3677c0f9f.json', scope)
         client = gspread.authorize(creds)
 
         try:
@@ -51,4 +51,4 @@ def log_to_spreadsheet(user, question, answer):
         print(f"Kesalahan lain terjadi: {str(e)}")  # Memastikan detail kesalahan ditampilkan
 
 # Contoh pemanggilan fungsi
-log_to_spreadsheet("test_user", "aaaaaaaaaaa", "bbbbbbbbbbbb", 'tubes-iot-407403-9b90ebd06d9c.json', 'log user')
+log_to_spreadsheet("test_user", "aaaaaaaaaaa", "bbbbbbbbbbbb")

@@ -3,10 +3,9 @@ import logging
 from telegram import Update
 from telegram.ext import ContextTypes
 import re
+import datetime
 import gspread
-from oauth2client.service_account import ServiceAccountCredentials
-import datetime
-import datetime
+from google.oauth2.service_account import Credentials
 import os
 import csv
 from bot_telegram.commands import start
@@ -28,12 +27,11 @@ async def check_password(update: Update, context):
     # Periksa apakah user sedang menunggu password
     if user_state[user_id]["waiting_for_password"]:
         if user_password == PASSWORD_1 or user_password == PASSWORD_2 or user_password == PASSWORD_3:
-            # Tambahkan user ke daftar authorized_users
             authorized_users.add(user_id)
+            user_state[user_id]["password_access"] = user_password
             user_state[user_id]["waiting_for_password"] = False
             await update.message.reply_text("Password accepted! You now have access.")
-            await update.message.reply_text("Chat is only in english!")
-            await start(update, context)  # Panggil start atau proses lainnya
+            await start(update, context)
         else:
             await update.message.reply_text("Incorrect password. Please try again:")
 
@@ -94,18 +92,6 @@ def process_data(data_string, return_type='profile'):
     else:
         return "Invalid return type specified. Use 'profile' or 'statistical'."
 
-def answer_question_profil(question, context_profil):
-    # Logika untuk menjawab pertanyaan tentang profil
-    if "profile" in question.lower():
-        return f"Profile info: {context_profil}"
-    return "No relevant profile information found."
-
-def answer_question_statistik(question, context_statistik):
-    # Logika untuk menjawab pertanyaan tentang statistik
-    if "traffic" in question.lower():
-        return f"Statistic info: {context_statistik}"
-    return "No relevant statistic information found."
-
 def is_coordinate(coord_str):
     pattern = r'^-?\s*[1-8]?\s*[0-9]\s*(?:\.\s*\d+)?\s*,\s*-?\s*(?:[1-9]?[0-9]|1[0-7][0-9]|180)\s*(?:\.\s*\d+)?$'
     match = re.match(pattern, coord_str)
@@ -135,50 +121,36 @@ def log_to_csv(user, question, answer):
             writer.writerow([user, current_date, question, answer])
 
 
-def log_to_spreadsheet(user, question, answer):
+def log_to_spreadsheet(user, question, answer, password):
     try:
-        # Tentukan scope untuk Google Sheets dan Google Drive API
+        # Definisikan scope dan autentikasi
         scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
-
-        # Autentikasi client menggunakan credential dari file JSON yang diberikan
-        creds = ServiceAccountCredentials.from_json_keyfile_name('tubes-iot-407403-9b90ebd06d9c.json', scope)
+        creds = Credentials.from_service_account_file('chatbot-ai-9b525-ad7c04b9a66d.json', scopes=scope)
         client = gspread.authorize(creds)
 
         try:
-            # Coba buka spreadsheet berdasarkan nama
+            # Buka atau buat spreadsheet
             spreadsheet = client.open('log user')
             print(f"Spreadsheet 'log user' ditemukan.")
         except gspread.SpreadsheetNotFound:
-            # Jika spreadsheet tidak ditemukan, buat spreadsheet baru
             spreadsheet = client.create('log user')
-            print(f"Spreadsheet baru '{'log user'}' berhasil dibuat.")
-            # Bagikan spreadsheet ke akun email yang digunakan untuk kolaborasi
-            spreadsheet.share(spreadsheet.client.auth.client_email, perm_type='user', role='writer')
-            print("Izin telah diberikan kepada email service account.")
+            print(f"Spreadsheet baru 'log user' berhasil dibuat.")
 
-        # Menampilkan link spreadsheet
-        spreadsheet_url = f"https://docs.google.com/spreadsheets/d/{spreadsheet.id}"
-        print(f"Spreadsheet URL: {spreadsheet_url}")
+        # Bagikan spreadsheet dengan email "ioh.chatbot@gmail.com"
+        # spreadsheet.share("ioh.chatbot@gmail.com", perm_type='user', role='writer')
+        # print("Spreadsheet telah dibagikan dengan akses editor ke 'ioh.chatbot@gmail.com'.")
 
-        # Pilih worksheet (misalnya sheet pertama)
+        # # Ambil link untuk akses
+        # spreadsheet_url = f"https://docs.google.com/spreadsheets/d/{spreadsheet.id}"
+        # print(f"Spreadsheet URL: {spreadsheet_url}")
+
+        # Pilih worksheet dan tambahkan data
         worksheet = spreadsheet.sheet1
-
-        # Ambil tanggal saat ini
         current_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-
-        # Log data pengguna, tanggal, pertanyaan, dan jawaban
-        log_data = [user, current_date, question, answer]
-
-        # Tulis data ke worksheet (append row)
+        
+        log_data = [user, password, current_date, question, answer]
         worksheet.append_row(log_data)
-
         print("Data berhasil disimpan ke Google Sheets!")
         
-    except gspread.exceptions.APIError as api_error:
-        print(f"Terjadi kesalahan API: {api_error}")
-    except gspread.exceptions.GSpreadException as gspread_error:
-        print(f"Kesalahan GSpread: {gspread_error}")
-    except FileNotFoundError:
-        print("File kredensial tidak ditemukan. Pastikan path ke file JSON sudah benar.")
     except Exception as e:
-        print(f"Kesalahan lain terjadi: {str(e)}")  # Memastikan detail kesalahan ditampilkan
+        print(f"Terjadi kesalahan: {e}")

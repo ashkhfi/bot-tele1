@@ -207,7 +207,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_state[user]['time_chart'] = 30
         conn = connect_to_postgres()
         if conn:
-            user_state[user]['chart'] = get_data_chart(conn, user_state[user]['site_name'], 7)  # Mendapatkan data 7 hari terakhir
+            user_state[user]['chart'] = get_data_chart(conn, user_state[user]['site_name'], 30)  # Mendapatkan data 7 hari terakhir
             if user_state[user]['chart'].empty:
                 keyboard = [
                 [InlineKeyboardButton("7 Days", callback_data='7_days'),

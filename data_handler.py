@@ -57,10 +57,20 @@ def get_data_chart(conn, site_name, interval ):
     sql = f"""
     SELECT *
     FROM magang_datachart
-    WHERE DATE(date) >= CURRENT_DATE - INTERVAL '{interval} days'
-    AND DATE(date) < CURRENT_DATE - INTERVAL '1 day'
-      AND enodeb_name = '{sitename}';
-    """
+    WHERE DATE(date) >= (
+          SELECT MAX(date) 
+          FROM magang_datachart 
+          WHERE enodeb_name = '{sitename}'
+        ) - INTERVAL '{interval} days'
+      AND DATE(date) <= (
+          SELECT MAX(date) 
+          FROM magang_datachart 
+          WHERE enodeb_name = '{sitename}'
+        )
+      AND enodeb_name = '{sitename}'
+    ORDER BY date DESC;
+"""
+
 
 
     try:

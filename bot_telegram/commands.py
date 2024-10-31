@@ -1,6 +1,7 @@
 # Import library yang diperlukan
 from telegram import Update
 from telegram.ext import ContextTypes
+from telegram.constants import ParseMode 
 
 
 # Fungsi untuk menangani perintah /start
@@ -35,14 +36,20 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     # Cek apakah user sudah authorized
     if user in authorized_users:
         await update.message.reply_text(
-            "Please type directly the site name you want to know, or like this :\n@ioh_site_bot <site name>."
-        )
+            """This is a site data chatbot, First time, you will need to enter the site ID or site name,
+
+To help you find The Right Site , please use search command:
+- by siteid : <b>@ioh_site_bot</b><i>[space]</i><b> id </b><i>[space]</i><b> siteid</b>
+- by sitename : <b>@ioh_site_bot</b><i>[space]</i><b> site </b><i>[space]</i><b> sitename</b>
+
+Chat is only in english!"""
+        , parse_mode=ParseMode.HTML)
     else:
         await update.message.reply_text("Please enter the password to proceed:")
         user_state[user]["waiting_for_password"] = True
 
 # Fungsi untuk menangani perintah /end
-async def end(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def site(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Mengakhiri sesi pengguna"""
     from main import user_state  # Impor di dalam fungsi
     user_id = update.effective_user.id
