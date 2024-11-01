@@ -6,7 +6,7 @@ import logging
 import pytz
 import re
 from utils import check_password, log_to_csv, log_to_spreadsheet
-from qa_system import answer_question
+from features.qa_system import answer_question
 from config import connect_to_postgres
 from data_handler import set_context
 
@@ -20,6 +20,7 @@ async def handle_message(update: Update, context):
     user_id = update.message.from_user.id
     message = update.message.text
 
+    
     if user_id not in authorized_users:
         await check_password(update, context)
         return

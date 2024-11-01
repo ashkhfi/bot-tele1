@@ -4,6 +4,9 @@ venv/
 
 # Ignore configuration files
 config.py
+run.bat
+stop.bat
+chatbot-ai-9b525-d61b3ea81a47.json
 
 # Python specific ignores
 __pycache__/

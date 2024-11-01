@@ -67,6 +67,6 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     
     # Kirim hasil jika ada
     if results:
-        await update.inline_query.answer(results, is_personal=True)
+        await update.inline_query.answer(results)
     else:
-        await update.inline_query.answer([], is_personal=True)  # Kirim hasil kosong jika tidak ada yang cocok
+        await update.inline_query.answer([])  # Kirim hasil kosong jika tidak ada yang cocok

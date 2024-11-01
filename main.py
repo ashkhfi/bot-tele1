@@ -3,10 +3,12 @@ from telegram import Update
 from telegram.ext import ApplicationBuilder, CommandHandler, CallbackQueryHandler, MessageHandler, InlineQueryHandler, filters, ContextTypes
 import logging
 from bot_telegram.button_handlers import button
-from bot_telegram.commands import site,start
+from bot_telegram.commands import site,start, near, receive_location
 from bot_telegram.inline_query_handler import inline_query_handler
 from bot_telegram.message_handler import handle_message
 from utils import error_handler
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
 
 
 logger = logging.getLogger(__name__)
@@ -25,8 +27,8 @@ def main():
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
     application.add_handler(InlineQueryHandler(inline_query_handler))  # Menambahkan handler untuk inline query
     application.add_handler(CommandHandler("site", site))  # Pastikan end didefinisikan
-    application.add_error_handler(error_handler)  # Add this line to register the error handler
-   
+    application.add_handler(CommandHandler("near", near))
+    application.add_handler(MessageHandler(filters.LOCATION | filters.TEXT, receive_location))
 
     logger.info("Bot is polling...")
     application.run_polling()

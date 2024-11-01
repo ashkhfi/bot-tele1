@@ -1,12 +1,12 @@
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.constants import ParseMode 
 from telegram.ext import ContextTypes
-from qa_system import answer_question
+from features.qa_system import answer_question
 from utils import process_data
 from config import connect_to_postgres
-from chart_system import plot_data
+from features.chart_system import plot_data
 from data_handler import get_data_chart, get_data_sumarize
-from sumarize_system import summarize_issues
+from features.sumarize_system import summarize_issues
 import os
 import datetime
 

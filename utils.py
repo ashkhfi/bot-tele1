@@ -39,7 +39,7 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.error(f"Update {update} caused error {context.error}")
 
 def get_site_name(conn):
-    query = "SELECT DISTINCT site_name, site_id FROM magang_dataset;"
+    query = "SELECT DISTINCT site_name, site_id, coordinate FROM magang_dataset;"
     try:
         df = pd.read_sql_query(query, conn)
         return df
@@ -125,7 +125,7 @@ def log_to_spreadsheet(user, question, answer, password):
     try:
         # Definisikan scope dan autentikasi
         scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
-        creds = Credentials.from_service_account_file('chatbot-ai-9b525-ad7c04b9a66d.json', scopes=scope)
+        creds = Credentials.from_service_account_file('chatbot-ai-9b525-d61b3ea81a47.json', scopes=scope)
         client = gspread.authorize(creds)
 
         try:
