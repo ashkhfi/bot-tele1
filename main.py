@@ -21,7 +21,6 @@ PASSWORD_3 = "Usertest234"
 
 def main():
     application = ApplicationBuilder().token("7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I").build()
-
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
