@@ -9,6 +9,7 @@ from utils import check_password, log_to_csv, log_to_spreadsheet
 from features.qa_system import answer_question
 from config import connect_to_postgres
 from data_handler import set_context
+from .button_handlers import button
 
 # Konfigurasi logger
 timezone = pytz.timezone("Asia/Jakarta")
@@ -82,6 +83,11 @@ async def handle_message(update: Update, context):
 
     if user_state[user]["menu"] == "home":
         message = update.message.text
+        # Cek kata kunci untuk chart
+        if message in ["chart", "graph", "grafik", "trend", "tren"]:
+            await handle_chart(update, context)
+            return  # Hentikan eksekusi setelah menampilkan chart
+
         # Membuat keyboard menu
         keyboard = [
             [InlineKeyboardButton("Profile", callback_data='profile_site'),
@@ -93,6 +99,7 @@ async def handle_message(update: Update, context):
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
+<<<<<<< HEAD
     if message and message != user_state[user]['site_name'] and message != user_state[user]['site_id']:
         print(f'pesan : {message}')
         if user in user_state:
@@ -109,6 +116,12 @@ async def handle_message(update: Update, context):
             print("User belum terdaftar di user_state.")
 
         question = update.message.text.upper()
+=======
+    if message and message != user_state[user]['site_name'] and message != user_state[user]['site_id'] and message in ["chart", "graph", "grafik", "trend", "tren"]:
+        print(user_state[user]['site_name'])
+        print(user_state[user]['site_id'])
+        question = update.message.text
+>>>>>>> 3db0dfb44707aeaf54540ee6cca681b4f0ed988c
         if question and question != user_state[user]['site_name'] and question != user_state[user]['site_id'] : 
             answer = answer_question(message, user_state[user]['context'])
             print(answer)
@@ -134,3 +147,25 @@ async def handle_message(update: Update, context):
             reply_markup=reply_markup
         )
         user_state[user]["just_returned_home"] = False
+
+async def handle_chart(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    user_message = update.message.text.lower()
+    
+    # Cek apakah `update` memiliki callback query atau tidak
+    query = update.callback_query
+    
+    # Jika `query` ada (dari tombol), lanjutkan ke proses callback
+    if query:
+        await query.answer()  # Mengkonfirmasi bahwa query diterima
+        query.data = 'chart'  # Atur data callback ke 'chart_site'
+    
+    # Tampilan menu chart untuk pengguna
+    keyboard = [
+        [InlineKeyboardButton("7 Days", callback_data='7_days'),
+         InlineKeyboardButton("14 Days", callback_data='14_days'),
+         InlineKeyboardButton("1 Month", callback_data='1_month')],
+        [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
+         InlineKeyboardButton("Back to Start", callback_data='start')]
+    ]
+    reply_markup = InlineKeyboardMarkup(keyboard)
+    await update.message.reply_text("Please select a time range", reply_markup=reply_markup)

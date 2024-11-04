@@ -52,6 +52,15 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     elif query.data == 'chart_site':
         user_state[user]['menu'] = 'chart'
+        user_message = update.message.text.lower()
+    
+        # Cek apakah `update` memiliki callback query atau tidak
+        query = update.callback_query
+    
+        # Jika `query` ada (dari tombol), lanjutkan ke proses callback
+        if query:
+            await query.answer()  # Mengkonfirmasi bahwa query diterima
+            query.data = 'chart'  # Atur data callback ke 'chart_site'
         # await query.message.reply_text("This feature is still maintenance")
         # keyboard = [
         #   [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
