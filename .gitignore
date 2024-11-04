@@ -16,3 +16,4 @@ __pycache__/
 
 # Ignore environment variable files
 *.env
+log_output.csv
