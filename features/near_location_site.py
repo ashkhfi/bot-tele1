@@ -83,6 +83,7 @@ async def find_nearest_locations(update: Update, context: ContextTypes.DEFAULT_T
                 distance_text = f"{distance * 1000:.0f} m" if distance < 1 else f"{distance:.2f} KM"
                 message += (
                     f" • {location['name']}\n"
+                    f"    ‣ Site ID: {location['site_id']}\n"
                     f"    ‣ Distance: {distance_text}\n"
                     f"    ‣ Bearing: {bearing:.0f}°\n"
                     f"    ‣ Direction: {direction}({emoji})\n\n"

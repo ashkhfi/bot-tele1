@@ -21,8 +21,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         formatted_text = process_data(user_state[user]['context'], return_type='profile')
         await query.message.reply_text(formatted_text, parse_mode=ParseMode.HTML)
         keyboard = [
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-           InlineKeyboardButton("Back to Start", callback_data='start')]
+          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
@@ -32,8 +31,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         formatted_text = process_data(user_state[user]['context'], return_type='statistical')
         await query.message.reply_text(formatted_text, parse_mode=ParseMode.HTML)
         keyboard = [
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-           InlineKeyboardButton("Back to Start", callback_data='start')]
+          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
@@ -45,8 +43,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text(f"{coordinates}")
             # Inline keyboard for maps
             keyboard = [
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-                 InlineKeyboardButton("Back to Start", callback_data='start')]  
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]  
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
@@ -66,8 +63,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
           [InlineKeyboardButton("7 Days", callback_data='7_days'),
            InlineKeyboardButton("14 Days", callback_data='14_days'),
            InlineKeyboardButton("1 Month", callback_data='1_month')],
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-           InlineKeyboardButton("Back to Start", callback_data='start')]
+          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("Please select a time range", reply_markup=reply_markup)
@@ -85,8 +81,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text("Failed to connect database")
 
         keyboard = [
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-           InlineKeyboardButton("Back to Start", callback_data='start')]
+          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
@@ -102,7 +97,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             InlineKeyboardButton("Maps", callback_data='maps')],
             [InlineKeyboardButton("Chart", callback_data='chart_site'),
             InlineKeyboardButton("Summary", callback_data='summarize')],
-            [InlineKeyboardButton("Back to Start", callback_data='start')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
 
@@ -149,8 +143,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 [InlineKeyboardButton("7 Days", callback_data='7_days'),
                 InlineKeyboardButton("14 Days", callback_data='14_days'),
                 InlineKeyboardButton("1 Month", callback_data='1_month')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-                InlineKeyboardButton("Back to Start", callback_data='start')]
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 
@@ -162,8 +155,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 InlineKeyboardButton("EUT", callback_data='eut_chart')],
                 [InlineKeyboardButton("Traffic", callback_data='traffic_chart'),
                 InlineKeyboardButton("Availability", callback_data='availability_chart')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-                InlineKeyboardButton("Back to Start", callback_data='start')]
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 await query.message.reply_text("Please select the data", reply_markup=reply_markup)
@@ -181,8 +173,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 [InlineKeyboardButton("7 Days", callback_data='7_days'),
                 InlineKeyboardButton("14 Days", callback_data='14_days'),
                 InlineKeyboardButton("1 Month", callback_data='1_month')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-                InlineKeyboardButton("Back to Start", callback_data='start')]
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 
@@ -194,8 +185,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 InlineKeyboardButton("EUT", callback_data='eut_chart')],
                 [InlineKeyboardButton("Traffic", callback_data='traffic_chart'),
                 InlineKeyboardButton("Availability", callback_data='availability_chart')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-                InlineKeyboardButton("Back to Start", callback_data='start')]
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 await query.message.reply_text("Please select the data", reply_markup=reply_markup)
@@ -213,8 +203,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 [InlineKeyboardButton("7 Days", callback_data='7_days'),
                 InlineKeyboardButton("14 Days", callback_data='14_days'),
                 InlineKeyboardButton("1 Month", callback_data='1_month')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-                InlineKeyboardButton("Back to Start", callback_data='start')]
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 
@@ -226,8 +215,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 InlineKeyboardButton("EUT", callback_data='eut_chart')],
                 [InlineKeyboardButton("Traffic", callback_data='traffic_chart'),
                 InlineKeyboardButton("Availability", callback_data='availability_chart')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-                InlineKeyboardButton("Back to Start", callback_data='start')]
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
                 ]
                 reply_markup = InlineKeyboardMarkup(keyboard)
                 await query.message.reply_text("Please select the data", reply_markup=reply_markup)
@@ -264,8 +252,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             # Tampilkan keyboard setelah mengirim chart
             keyboard = [
                 [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-                InlineKeyboardButton("Back to Start", callback_data='start')],
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')],
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
@@ -287,8 +274,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
              # Tambahkan keyboard setelah mengirim chart
             keyboard = [
                 [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-                InlineKeyboardButton("Back to Start", callback_data='start')]
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
@@ -308,8 +294,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
              # Tambahkan keyboard setelah mengirim chart
             keyboard = [
                 [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
-                [InlineKeyboardButton("Back to Start", callback_data='start'),
-                InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
@@ -329,8 +314,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
              # Tambahkan keyboard setelah mengirim chart
             keyboard = [
                 [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-                InlineKeyboardButton("Back to Start", callback_data='start')]
+                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
             ]
             reply_markup = InlineKeyboardMarkup(keyboard)
             await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)

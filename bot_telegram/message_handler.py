@@ -32,14 +32,14 @@ async def handle_message(update: Update, context):
             print(f"Input diterima: {input_value}")
             site_id_pattern = r'^\d{2}[A-Z]{3}\d{4}$'
             if re.match(site_id_pattern, input_value):  
-                site_id = input_value
+                site_id = input_value.upper() 
                 print(f"Mendeteksi site_id: {site_id}")
                 df = user_state[user]['df']
                 user_state[user]['site_id'] = site_id
                 print(user_state[user]['site_id'])
                 site_row = df[df['site_id'] == site_id]
                 if not site_row.empty:
-                    site_name = site_row.iloc[0]['site_name']  
+                    site_name = site_row.iloc[0]['site_name'].upper() 
                     user_state[user]['site_name'] = site_name
                     user_state[user]['context'] = set_context(conn, site_name)
                     print(f"Site ID: {site_id} ditemukan. Nama situs: {site_name}")
@@ -49,7 +49,7 @@ async def handle_message(update: Update, context):
                     print(f"Site ID: {site_id} tidak ditemukan dalam DataFrame.") 
             else:
                 #menggunakan site name
-                site_name = input_value
+                site_name = input_value.upper() 
                 user_state[user]['site_name'] = site_name
 
                 df = user_state[user]['df']
@@ -58,7 +58,7 @@ async def handle_message(update: Update, context):
                     matching_site = df[df['site_name'].str.lower() == site_name.lower()]
 
                     if not matching_site.empty:
-                        site_id = matching_site.iloc[0]['site_id']
+                        site_id = matching_site.iloc[0]['site_id'].upper() 
                         user_state[user]['site_id'] = site_id
                         print(f"Site ID {site_id} ditemukan untuk site_name '{site_name}'.")
                     else:
@@ -71,7 +71,7 @@ async def handle_message(update: Update, context):
                 print(f"Nama situs: {site_name} diterima dan konteks telah disetel.")
 
 
-            if user_state[user]['context'] != "null":
+            if user_state[user]['context'] != None:
                 user_state[user]['menu'] = 'home'
                 user_state[user]["just_returned_home"] = True
             else:       
@@ -89,14 +89,26 @@ async def handle_message(update: Update, context):
             InlineKeyboardButton("Maps", callback_data='maps')],
             [InlineKeyboardButton("Chart", callback_data='chart_site'),
             InlineKeyboardButton("Summary", callback_data='summarize')],
-            [InlineKeyboardButton("Back to Start", callback_data='start')]
+            # [InlineKeyboardButton("Back to Start", callback_data='start')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
     if message and message != user_state[user]['site_name'] and message != user_state[user]['site_id']:
-        print(user_state[user]['site_name'])
-        print(user_state[user]['site_id'])
-        question = update.message.text
+        print(f'pesan : {message}')
+        if user in user_state:
+            if 'site_name' in user_state[user]:
+                print(f'site name : {user_state[user]["site_name"]}')
+            else:
+                print("site_name belum diinisialisasi.")
+
+            if 'site_id' in user_state[user]:
+                print(f'site id : {user_state[user]["site_id"]}')
+            else:
+                print("site_id belum diinisialisasi.")
+        else:
+            print("User belum terdaftar di user_state.")
+
+        question = update.message.text.upper()
         if question and question != user_state[user]['site_name'] and question != user_state[user]['site_id'] : 
             answer = answer_question(message, user_state[user]['context'])
             print(answer)

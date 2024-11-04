@@ -20,6 +20,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "menu": "start",
             "waiting_for_password": False,
             "site_name": "",
+            "site_id": "",
             "df": None
         }
 
@@ -51,15 +52,42 @@ Chat is only in english!"""
         await update.message.reply_text("Please enter the password to proceed:")
         user_state[user]["waiting_for_password"] = True
 
-# Fungsi untuk menangani perintah /end
+# Fungsi untuk menangani perintah /site
 async def site(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """Mengakhiri sesi pengguna"""
     from main import user_state  # Impor di dalam fungsi
-
+    from config import connect_to_postgres
+    from utils import get_site_name
     user_id = update.effective_user.id
-    if user_id in user_state:  # Menghapus user dari user_state jika ada
-        del user_state[user_id]  # Hapus status user dari dictionary
-    await update.message.reply_text("Your session has ended. Please use /start to begin again")
+    user_state[user_id]['context'] = None
+    user_state[user_id]['near'] = False
+    user_state[user_id]['menu'] = 'start'
+    user_state[user_id]['waiting_for_password'] = False
+    user_state[user_id]['site_name'] = ""
+    user_state[user_id]['site_id'] = ""
+    user_state[user_id]['df'] = None
+   
+    await update.message.reply_text(
+            """This is a site data chatbot, First time, you will need to enter the site ID or site name,
+
+To help you find The Right Site , please use search command:
+- by siteid : <b>@ioh_site_bot</b><i>[space]</i><b> id </b><i>[space]</i><b> siteid</b>
+- by sitename : <b>@ioh_site_bot</b><i>[space]</i><b> site </b><i>[space]</i><b> sitename</b>
+
+Chat is only in english!"""
+        ,parse_mode=ParseMode.HTML,reply_markup=ReplyKeyboardRemove()
+        )
+    conn = connect_to_postgres()
+
+    if conn:
+        df = get_site_name(conn)
+        if df is not None:
+            user_state[user_id]['df'] = df
+            print(df)
+        conn.close()
+    else:
+        await update.message.reply_text("Failed to connect to the database.")
+
 
 async def near(update: Update, context: ContextTypes.DEFAULT_TYPE):
     from main import user_state
