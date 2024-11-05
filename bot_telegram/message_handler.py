@@ -84,7 +84,7 @@ async def handle_message(update: Update, context):
     if user_state[user]["menu"] == "home":
         message = update.message.text
         # Cek kata kunci untuk chart
-        if message in ["chart", "graph", "grafik", "trend", "tren"]:
+        if message in ["chart", "graph", "grafik", "trend", "tren", "diagram", "statistik", "Chart", "Graph", "Grafik", "Trend", "Tren", "Diagram", "Statistik", "CHART", " GRAPH", " GRAFIK", "TREND", "TREN", "DIAGRAM", "STATISTIK"]:
             await handle_chart(update, context)
             return  # Hentikan eksekusi setelah menampilkan chart
 
@@ -99,7 +99,7 @@ async def handle_message(update: Update, context):
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
-    if message and message != user_state[user]['site_name'] and message != user_state[user]['site_id'] and message in ["chart", "graph", "grafik", "trend", "tren"]:
+    if message and message != user_state[user]['site_name'] and message != user_state[user]['site_id']:
         print(f'pesan : {message}')
         if user in user_state:
             if 'site_name' in user_state[user]:
