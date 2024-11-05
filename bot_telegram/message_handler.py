@@ -84,7 +84,10 @@ async def handle_message(update: Update, context):
     if user_state[user]["menu"] == "home":
         message = update.message.text
         # Cek kata kunci untuk chart
-        if message in ["chart", "graph", "grafik", "trend", "tren", "diagram", "statistik", "Chart", "Graph", "Grafik", "Trend", "Tren", "Diagram", "Statistik", "CHART", " GRAPH", " GRAFIK", "TREND", "TREN", "DIAGRAM", "STATISTIK"]:
+        keywords = ["chart", "graph", "grafik", "trend", "tren", "diagram", "statistik"]
+        if any(keyword in message.lower() for keyword in keywords):
+    # lakukan sesuatu
+
             await handle_chart(update, context)
             return  # Hentikan eksekusi setelah menampilkan chart
 
@@ -157,8 +160,7 @@ async def handle_chart(update: Update, context: ContextTypes.DEFAULT_TYPE):
         [InlineKeyboardButton("7 Days", callback_data='7_days'),
          InlineKeyboardButton("14 Days", callback_data='14_days'),
          InlineKeyboardButton("1 Month", callback_data='1_month')],
-        [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-         InlineKeyboardButton("Back to Start", callback_data='start')]
+        [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text("Please select a time range", reply_markup=reply_markup)

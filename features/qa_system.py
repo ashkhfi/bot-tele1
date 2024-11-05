@@ -7,6 +7,7 @@ tokenizer = BertTokenizer.from_pretrained('Ashkh0099/my-bert-new-version-5.0')
 def answer_question(question, context):
     """Answer the question based on the site context."""
     threshold = 0.5
+    question = question.lower() + "?"
     inputs = tokenizer(question, context, return_tensors="pt", truncation=True)
 
     # Dapatkan output logit dari model
