@@ -78,18 +78,22 @@ async def find_nearest_locations(update: Update, context: ContextTypes.DEFAULT_T
             top_nearest_locations = distances[:5]
 
             # Buat pesan hasil
-            message = "<b>5 Nearest Site:</b>\n\n"
+            message = "*5 Nearest Sites:*\n\n"
             for distance, location, bearing, direction, emoji in top_nearest_locations:
                 distance_text = f"{distance * 1000:.0f} m" if distance < 1 else f"{distance:.2f} KM"
                 message += (
-                    f" • {location['name']}\n"
-                    f"    ‣ Site ID: {location['site_id']}\n"
+                    f" • `{location['name']}`\n"
+                    f"    ‣ Site ID: `{location['site_id']}`\n"
                     f"    ‣ Distance: {distance_text}\n"
                     f"    ‣ Bearing: {bearing:.0f}°\n"
-                    f"    ‣ Direction: {direction}({emoji})\n\n"
+                    f"    ‣ Direction: {direction}\\({emoji}\\)\n\n"  # Escape parentheses
                 )
 
-            await update.message.reply_text(message, parse_mode="HTML")
+            # Add a note at the bottom, escaping special characters
+            message += "***Note: Tap on the Site Name or Site ID above to copy them to your clipboard\\.***"
+
+
+            await update.message.reply_text(message, parse_mode="MarkdownV2")
         else:
             await update.message.reply_text("Location Data Not Found.")
         conn.close()
