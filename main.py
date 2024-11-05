@@ -6,7 +6,6 @@ from bot_telegram.button_handlers import button
 from bot_telegram.commands import site,start, near, receive_location
 from bot_telegram.inline_query_handler import inline_query_handler
 from bot_telegram.message_handler import handle_message
-from utils import error_handler
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -20,12 +19,8 @@ PASSWORD_2 = "indosat"
 PASSWORD_3 = "Usertest234"
 
 def main():
-<<<<<<< HEAD
-    application = ApplicationBuilder().token("7617596594:AAFyiPhJU4lcaBsbFgdTjdxKPPXV4dHiUqI").build()
+    application = ApplicationBuilder().token("7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js").build()
 
-=======
-    application = ApplicationBuilder().token("7154493270:AAHXtN0-1H5pvPYK-eRHaIes7m0uhvFU72I").build()
->>>>>>> 3db0dfb44707aeaf54540ee6cca681b4f0ed988c
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(button))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))

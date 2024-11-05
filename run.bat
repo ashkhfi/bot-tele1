@@ -1,10 +1,10 @@
 @echo off
 REM Mengatur jalur ke virtual environment
-set VENV_PATH=D:/Magang/bot-telegram/venv/Scripts/activate.bat
+set VENV_PATH=D:/Magang/bot-tele/venv/Scripts/activate.bat
 echo Mengatur jalur ke virtual environment: %VENV_PATH%
 
 REM Mengatur jalur ke script Python
-set SCRIPT_PATH=D:/Magang/bot-telegram/main.py
+set SCRIPT_PATH=D:/Magang/bot-tele/main.py
 echo Mengatur jalur ke script Python: %SCRIPT_PATH%
 
 REM Mengaktifkan virtual environment

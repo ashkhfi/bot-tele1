@@ -99,8 +99,7 @@ async def handle_message(update: Update, context):
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
-<<<<<<< HEAD
-    if message and message != user_state[user]['site_name'] and message != user_state[user]['site_id']:
+    if message and message != user_state[user]['site_name'] and message != user_state[user]['site_id'] and message in ["chart", "graph", "grafik", "trend", "tren"]:
         print(f'pesan : {message}')
         if user in user_state:
             if 'site_name' in user_state[user]:
@@ -116,12 +115,6 @@ async def handle_message(update: Update, context):
             print("User belum terdaftar di user_state.")
 
         question = update.message.text.upper()
-=======
-    if message and message != user_state[user]['site_name'] and message != user_state[user]['site_id'] and message in ["chart", "graph", "grafik", "trend", "tren"]:
-        print(user_state[user]['site_name'])
-        print(user_state[user]['site_id'])
-        question = update.message.text
->>>>>>> 3db0dfb44707aeaf54540ee6cca681b4f0ed988c
         if question and question != user_state[user]['site_name'] and question != user_state[user]['site_id'] : 
             answer = answer_question(message, user_state[user]['context'])
             print(answer)
