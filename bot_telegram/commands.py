@@ -116,3 +116,5 @@ async def receive_location(update: Update, context: ContextTypes.DEFAULT_TYPE) -
             await update.message.reply_text("Failed to receive location. Try again by sharing your location.")
     else:
         await update.message.reply_text("Please use /near first to find the nearest site")
+
+

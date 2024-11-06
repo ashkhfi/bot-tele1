@@ -5,8 +5,8 @@ from features.qa_system import answer_question
 from utils import process_data
 from config import connect_to_postgres
 from features.chart_system import plot_data
-from data_handler import get_data_chart, get_data_sumarize
-from features.sumarize_system import summarize_issues
+from data_handler import get_data_chart
+from features.sumarize_system import generate_summary_report
 import os
 import datetime
 
@@ -80,12 +80,12 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_state[user]['menu'] = 'summary'
         conn = connect_to_postgres()
         if conn:
-            df = get_data_sumarize(conn, user_state[user]['site_name'])  # Mendapatkan data 7 hari terakhir
+            df = get_data_chart(conn, user_state[user]['site_name'], 6)  # Mendapatkan data 7 hari terakhir
             if df.empty:
                 await query.message.reply_text("No data found")
             else:
-                a = summarize_issues(df)
-                await query.message.reply_text(a['message'])
+                a = generate_summary_report(df)
+                await query.message.reply_text(a)
         else:
             await query.message.reply_text("Failed to connect database")
 

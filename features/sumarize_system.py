@@ -1,61 +1,88 @@
-##kode untuk fitur sumarize
+import pandas as pd
 
-def summarize_issues(df):
-    issues = []
+def generate_summary_report(df):
+    # 1. Site Availability
+    avg_site_availability = df['availability'].mean()
+    if avg_site_availability > 99.75:
+        site_availability_label = "Availability Good"
+    elif 99.00 <= avg_site_availability <= 99.7:
+        site_availability_label = "Availability Fair"
+    else:
+        site_availability_label = "Availability Not Good"
 
-    # Find the latest date in the 'date' column
-    latest_date = df['date'].max()
+    # 2. Sector Availability
+    days_below_99_7_site = df[df['availability'] < 99.7]['date'].nunique()
+    dates_below_99_7_site = df[df['availability'] < 99.7]['date'].unique()
+    sectors_below_99 = df[df['availability'] < 99]['sector_id_hos'].unique()
+    highest_sector = df.loc[df['availability'].idxmax()]['sector_id_hos']
+    lowest_sector = df.loc[df['availability'].idxmin()]['sector_id_hos']
 
-    # Prepare a list to store the messages
-    result_messages = []
+    # 3. Site EUT
+    average_eut = df['eut'].mean()
+    congested_sectors = df[df['eut'] < 1.4]['sector_id_hos'].unique()
+    nearly_congested_sectors = df[(df['eut'] >= 1.4) & (df['eut'] < 2)]['sector_id_hos'].unique()
+    not_congested_sectors = df[df['eut'] > 2]['sector_id_hos'].unique()
 
-    # Add the latest update date message
-    result_messages.append(f"Latest data update: {latest_date.strftime('%d %B %Y')}\n")
+    # 4. Sector EUT
+    highest_eut_sector = df.loc[df['eut'].idxmax()]['sector_id_hos']
+    lowest_eut_sector = df.loc[df['eut'].idxmin()]['sector_id_hos']
 
-    # Loop through each row in the dataframe
-    for index, row in df.iterrows():
-        # Check if any column violates the threshold
-        problems = []
+    # 5. Sector dl_prb
+    average_dl_prb = df['dl_prb'].mean()
+    loaded_sectors = df[df['dl_prb'] < 93]['sector_id_hos'].unique()
+    nearly_loaded_sectors = df[(df['dl_prb'] >= 85) & (df['dl_prb'] < 93)]['sector_id_hos'].unique()
+    highest_dl_prb_sector = df.loc[df['dl_prb'].idxmax()]['sector_id_hos']
+    lowest_dl_prb_sector = df.loc[df['dl_prb'].idxmin()]['sector_id_hos']
 
-        if row['availability'] < 99.0:
-            problems.append(f"low availability ({row['availability']:.5f})")
+    # 6. Site traffic_gb (per Sector, Averaged over 1 Week)
+    traffic_per_sector = df.groupby('sector_id_hos')['traffic_gb'].sum() / 7
 
-        if row['eut'] < 1.4:
-            problems.append(f"low EUT ({row['eut']:.5f})")
+    # 7. Sector traffic_gb
+    highest_traffic_gb_sector = df.loc[df['traffic_gb'].idxmax()]['sector_id_hos']
+    lowest_traffic_gb_sector = df.loc[df['traffic_gb'].idxmin()]['sector_id_hos']
 
-        if row['traffic_gb'] < 300.0:
-            problems.append(f"low traffic ({row['traffic_gb']:.5f})")
+    # Menyiapkan semua output sebagai satu variabel string
+    output_summary = f"""
+Site Availability:
+- Overall Average Availability: {avg_site_availability:.2f}
+- Site Availability Label: {site_availability_label}
 
-        if row['dl_prb'] < 93.0:
-            problems.append(f"low PRB ({row['dl_prb']:.5f})")
+Number of Days with Availability < 99.7: {days_below_99_7_site}
+Dates with Availability < 99.7:
+""" + "\n".join(f"  - {date.strftime('%Y-%m-%d')}" for date in dates_below_99_7_site) + f"""
 
-        # If there are problems, add them to the issues list
-        if problems:
-            issue_summary = {
-                'sector_id_hos': row['sector_id_hos'],
-                'issues': problems
-            }
-            issues.append(issue_summary)
-            
-            # Add the issue messages to the result_messages list
-            result_messages.append(f"Sector ID {issue_summary['sector_id_hos']} has issues:")
-            for prob in issue_summary['issues']:
-                result_messages.append(f" - {prob}")
-            result_messages.append("")  # Add a blank line after each sector
+Sector Availability:
+- Sector with Highest Availability: {highest_sector}
+- Sector with Lowest Availability: {lowest_sector}
+- Number of Sectors with Availability < 99: {len(sectors_below_99)}
 
-    # If there are no issues
-    if not issues:
-        result_messages.append("No issues found.\n")
+Site EUT:
+- Average EUT: {average_eut:.2f}
+- Number of Congested Sectors (EUT < 1.4): {len(congested_sectors)}
+- Number of Nearly Congested Sectors (EUT 1.4-2): {len(nearly_congested_sectors)}
+- Number of Not Congested Sectors (EUT > 2): {len(not_congested_sectors)}
 
-    # Join all the messages into a single string
-    final_message = "\n".join(result_messages)
+Sector EUT:
+- Highest EUT Sector: {highest_eut_sector}
+- Lowest EUT Sector: {lowest_eut_sector}
 
-    # Print the final message once
-    # print(final_message)
-    
-    # Return the latest date and issues as a single variable (dictionary)
-    return {
-        'latest_update': latest_date.strftime('%d %B %Y'),
-        'issues': issues,
-        'message': final_message  # Include the final message in the return
-    }
+Sector PRB:
+- Average PRB: {average_dl_prb:.2f}
+- Number of Loaded Sectors (PRB < 93%): {len(loaded_sectors)}
+- Number of Nearly Loaded Sectors (PRB 85-93%): {len(nearly_loaded_sectors)}
+- Sector with Highest PRB Usage: {highest_dl_prb_sector}
+- Sector with Lowest PRB Usage: {lowest_dl_prb_sector}
+
+Site Traffic (GB per Sector, Averaged over 1 Week):
+""" + "\n".join(f"- Sector {sector}: {traffic:.2f} GB" for sector, traffic in traffic_per_sector.items()) + f"""
+
+Sector Traffic:
+- Sector with Highest Traffic: {highest_traffic_gb_sector}
+- Sector with Lowest Traffic: {lowest_traffic_gb_sector}
+"""
+
+    # Mengembalikan seluruh output dalam satu variabel
+    return output_summary
+
+# Contoh penggunaan fungsi dengan dataframe df_7
+# print(generate_summary_report(df_7))
