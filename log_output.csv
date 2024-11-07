@@ -20230,3 +20230,91 @@
 2024-11-05 16:00:06 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
 2024-11-05 16:00:06 WIB,INFO,Application is stopping. This might take a moment.
 2024-11-05 16:00:06 WIB,INFO,Application.stop() complete
+2024-11-07 09:29:25 WIB,INFO,Bot is polling...
+2024-11-07 09:29:30 WIB,ERROR,Unexpected error in main(): Timed out
+2024-11-07 13:17:34 WIB,INFO,Bot is polling...
+2024-11-07 13:17:35 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getMe "HTTP/1.1 200 OK"
+2024-11-07 13:17:35 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/deleteWebhook "HTTP/1.1 200 OK"
+2024-11-07 13:17:35 WIB,INFO,Application started
+2024-11-07 13:17:46 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:17:56 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:18:06 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:18:17 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:18:27 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:18:37 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:18:47 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:18:58 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:19:08 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:19:18 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:19:23 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:19:23 WIB,INFO,Application is stopping. This might take a moment.
+2024-11-07 13:19:23 WIB,INFO,Application.stop() complete
+2024-11-07 13:52:06 WIB,INFO,Bot is polling...
+2024-11-07 13:52:06 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getMe "HTTP/1.1 200 OK"
+2024-11-07 13:52:07 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/deleteWebhook "HTTP/1.1 200 OK"
+2024-11-07 13:52:07 WIB,INFO,Application started
+2024-11-07 13:52:07 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:52:09 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:52:19 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:52:23 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:52:24 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:52:25 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:52:33 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:52:34 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:52:35 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:52:42 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:52:42 WIB,INFO,Received inline query at 07-11-2024 06:52:42: 
+2024-11-07 13:52:43 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/answerInlineQuery "HTTP/1.1 200 OK"
+2024-11-07 13:52:45 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:52:45 WIB,INFO,Received inline query at 07-11-2024 06:52:45: site pasekaran
+2024-11-07 13:52:46 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/answerInlineQuery "HTTP/1.1 200 OK"
+2024-11-07 13:52:48 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:52:49 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:52:59 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:53:09 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:53:19 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:53:29 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:53:40 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:53:50 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:54:00 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:54:10 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:54:21 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:54:24 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:54:24 WIB,INFO,Application is stopping. This might take a moment.
+2024-11-07 13:54:24 WIB,INFO,Application.stop() complete
+2024-11-07 13:54:38 WIB,INFO,Bot is polling...
+2024-11-07 13:54:39 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getMe "HTTP/1.1 200 OK"
+2024-11-07 13:54:39 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/deleteWebhook "HTTP/1.1 200 OK"
+2024-11-07 13:54:39 WIB,INFO,Application started
+2024-11-07 13:54:42 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:54:43 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:54:48 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:54:49 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:54:50 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:54:53 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:54:54 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:54:57 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:54:57 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/answerCallbackQuery "HTTP/1.1 200 OK"
+2024-11-07 13:54:58 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:54:58 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:55:02 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:55:02 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:55:09 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:55:10 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:55:17 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:55:18 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:55:23 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:55:25 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:55:28 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:55:28 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/answerCallbackQuery "HTTP/1.1 200 OK"
+2024-11-07 13:55:29 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:55:29 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:55:33 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:55:33 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:55:35 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:55:36 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:55:41 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:55:42 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/sendMessage "HTTP/1.1 200 OK"
+2024-11-07 13:55:47 WIB,INFO,HTTP Request: POST https://api.telegram.org/bot7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js/getUpdates "HTTP/1.1 200 OK"
+2024-11-07 13:55:47 WIB,INFO,Application is stopping. This might take a moment.
+2024-11-07 13:55:47 WIB,INFO,Application.stop() complete

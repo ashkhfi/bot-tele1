@@ -121,7 +121,7 @@ def log_to_csv(user, question, answer):
             writer.writerow([user, current_date, question, answer])
 
 
-def log_to_spreadsheet(user, question, answer, password):
+def log_to_spreadsheet(user, question, answer, password, site):
     try:
         # Definisikan scope dan autentikasi
         scope = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
@@ -148,7 +148,7 @@ def log_to_spreadsheet(user, question, answer, password):
         worksheet = spreadsheet.sheet1
         current_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         
-        log_data = [user, password, current_date, question, answer]
+        log_data = [user, password, current_date,site, question, answer]
         worksheet.append_row(log_data)
         print("Data berhasil disimpan ke Google Sheets!")
         

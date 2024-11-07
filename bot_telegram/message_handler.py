@@ -61,6 +61,7 @@ async def handle_message(update: Update, context):
                     if not matching_site.empty:
                         site_id = matching_site.iloc[0]['site_id'].upper() 
                         user_state[user]['site_id'] = site_id
+                        user_state[user]['context'] = set_context(conn, site_name)
                         print(f"Site ID {site_id} ditemukan untuk site_name '{site_name}'.")
                     else:
                         print(f"Tidak ada data yang cocok untuk site_name '{site_name}'.")
@@ -68,8 +69,6 @@ async def handle_message(update: Update, context):
                     print("DataFrame pengguna tidak tersedia atau kosong.")
 
                 # Set context berdasarkan `site_name`
-                user_state[user]['context'] = set_context(conn, site_name)
-                print(f"Nama situs: {site_name} diterima dan konteks telah disetel.")
 
 
             if user_state[user]['context'] != None:
@@ -127,8 +126,7 @@ async def handle_message(update: Update, context):
                 first_name = update.message.from_user.first_name  # Nama depan
                 last_name = update.message.from_user.last_name    # Nama belakang
                 user_name = f"{first_name} {last_name}"   
-                log_to_csv(user_name, question, answer)  
-                log_to_spreadsheet(user_name, question, answer, user_state[user]['password_access'])  
+                log_to_spreadsheet(user_name, question, answer, user_state[user]['password_access'],user_state[user]['site_name'] )  
 
             else:
                 await update.message.reply_text(
