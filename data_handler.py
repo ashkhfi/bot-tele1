@@ -37,6 +37,7 @@ def set_context(conn, site_name):
                 f"number_cell_congested: {data[20]}; "
                 f"prb: {data[21]}; "
                 f"eut: {data[22]}; "
+                f"unrelated : data not found;. "
             )
         else:
             formatted_data = "null"

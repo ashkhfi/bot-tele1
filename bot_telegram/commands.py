@@ -31,7 +31,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         df = get_site_name(conn)
         if df is not None:
             user_state[user]['df'] = df
-            print(df)
+            print("data okey!!")
+            site_name_list = df['site_name'].tolist()
+            site_id_list = df['site_id'].tolist()
+            user_state[user]['site_name_list'] = site_name_list
+            user_state[user]['site_id_list'] = site_id_list
         conn.close()
     else:
         await update.message.reply_text("Failed to connect to the database.")
@@ -83,7 +87,7 @@ Chat is only in english!"""
         df = get_site_name(conn)
         if df is not None:
             user_state[user_id]['df'] = df
-            print(df)
+            print("data okey!!")
         conn.close()
     else:
         await update.message.reply_text("Failed to connect to the database.")

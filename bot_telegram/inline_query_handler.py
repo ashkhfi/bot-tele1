@@ -30,12 +30,11 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
                         thumbnail_url='https://firebasestorage.googleapis.com/v0/b/point-of-sale-3639a.appspot.com/o/site.png?alt=media&token=882c52e2-b574-4046-9fc1-4c3f272d9a70',
                         thumbnail_width=512,  
                         thumbnail_height=512 
-
                     )
                 )
 
     if 'id' in query.lower():
-        # Mengambil bagian query setelah kata 'site'
+        # Mengambil bagian query setelah kata 'id'
         search_query = query.lower().split('id', 1)[1].strip()
 
         if user in user_state and 'df' in user_state[user]:
@@ -52,7 +51,6 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
                         thumbnail_url='https://firebasestorage.googleapis.com/v0/b/point-of-sale-3639a.appspot.com/o/site.png?alt=media&token=882c52e2-b574-4046-9fc1-4c3f272d9a70',
                         thumbnail_width=512,  
                         thumbnail_height=512 
-
                     )
                 )
 
@@ -65,8 +63,10 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     # Menggunakan print dengan timestamp yang telah diformat
     print(f"Received inline query at {formatted_time}: {update.inline_query.query}")
     
-    # Kirim hasil jika ada
-    if results:
-        await update.inline_query.answer(results)
+    max_results = 10
+    limited_results = results[:max_results]  # Ambil hanya 10 item pertama
+
+    if limited_results:
+        await update.inline_query.answer(limited_results)
     else:
         await update.inline_query.answer([])  # Kirim hasil kosong jika tidak ada yang cocok

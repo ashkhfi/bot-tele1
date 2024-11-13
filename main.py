@@ -30,14 +30,12 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
 
 def main():
     try:
-        token = '7154493270:AAFJAlUOfrJYjgiWHVF_hwAjVOy1jw1a4Js'
+        token = '7617596594:AAFyiPhJU4lcaBsbFgdTjdxKPPXV4dHiUqI'
         if not token:
             logger.error("Token bot tidak ditemukan. Pastikan token diatur di variabel lingkungan.")
             return
 
         application = ApplicationBuilder().token(token).build()
-        
-        # Menambahkan handler untuk perintah dan pesan
         application.add_handler(CommandHandler("start", start))
         application.add_handler(CallbackQueryHandler(button))
         application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))

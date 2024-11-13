@@ -10,10 +10,16 @@ from features.qa_system import answer_question
 from config import connect_to_postgres
 from data_handler import set_context
 from .button_handlers import button
-
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process
 # Konfigurasi logger
 timezone = pytz.timezone("Asia/Jakarta")
 logger = logging.getLogger(__name__)
+
+def get_closest_matches(user_input, choices, limit=3):
+    matches = process.extract(user_input, choices, scorer=fuzz.ratio, limit=limit)
+    filtered_matches = [match for match, score in matches if score > 70]
+    return filtered_matches
 
 async def handle_message(update: Update, context):
     from main import user_state, authorized_users  # Impor di dalam fungsi
@@ -83,6 +89,28 @@ async def handle_message(update: Update, context):
     if user_state[user]["menu"] == "home":
         message = update.message.text
         # Cek kata kunci untuk chart
+        # if message.upper() in user_state[user]['site_name_list']:
+        #     print("Input ditemukan di site_name_list.")
+        # else:
+        #     # Fuzzy matching jika input tidak ditemukan dalam daftar
+        #     closest_matches = get_closest_matches(message.upper(), user_state[user]['site_name_list'])
+        #     if closest_matches:
+        #         suggestions = ", ".join(closest_matches)
+        #         await update.message.reply_text(f"Mungkin maksud Anda: {suggestions}?")
+        #     else:
+        #         await update.message.reply_text("Input tidak ditemukan.")
+
+        # if message.upper() in user_state[user]['site_id_list']:
+        #     print("Input ditemukan di site_id_list.")
+        # else:
+        #     # Fuzzy matching jika input tidak ditemukan dalam daftar
+        #     closest_matches = get_closest_matches(message.upper(), user_state[user]['site_id_list'])
+        #     if closest_matches:
+        #         suggestions = ", ".join(closest_matches)
+        #         await update.message.reply_text(f"Mungkin maksud Anda: {suggestions}?")
+        #     else:
+        #         await update.message.reply_text("Input tidak ditemukan.")
+
         keywords = ["chart", "graph", "grafik", "trend", "tren", "diagram", "statistik"]
         if any(keyword in message.lower() for keyword in keywords):
     # lakukan sesuatu
@@ -162,3 +190,6 @@ async def handle_chart(update: Update, context: ContextTypes.DEFAULT_TYPE):
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
     await update.message.reply_text("Please select a time range", reply_markup=reply_markup)
+
+
+
