@@ -119,7 +119,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_state[user]['chart'] = None
         user_state[user]['time_chart'] = None
 
-        await query.message.reply_text("Please type directly the site name you want to know, or like this :\n@ioh_site_bot <site name>.")
+        await query.message.reply_text("Please type directly the site name you want to know, or like this :\n@quicksite_bot <site name>.")
 
     # elif query.data == 'data_profil':
     #     formatted_text = process_data(user_state[user]['context'], return_type='profile')
