@@ -16,7 +16,7 @@ from fuzzywuzzy import process
 timezone = pytz.timezone("Asia/Jakarta")
 logger = logging.getLogger(__name__)
 
-def get_closest_matches(user_input, choices, limit=3):
+def get_closest_matches(user_input, choices, limit=1):
     matches = process.extract(user_input, choices, scorer=fuzz.ratio, limit=limit)
     filtered_matches = [match for match, score in matches if score > 70]
     return filtered_matches
@@ -88,32 +88,65 @@ async def handle_message(update: Update, context):
 
     if user_state[user]["menu"] == "home":
         message = update.message.text
-        # Cek kata kunci untuk chart
-        # if message.upper() in user_state[user]['site_name_list']:
-        #     print("Input ditemukan di site_name_list.")
-        # else:
-        #     # Fuzzy matching jika input tidak ditemukan dalam daftar
-        #     closest_matches = get_closest_matches(message.upper(), user_state[user]['site_name_list'])
-        #     if closest_matches:
-        #         suggestions = ", ".join(closest_matches)
-        #         await update.message.reply_text(f"Mungkin maksud Anda: {suggestions}?")
-        #     else:
-        #         await update.message.reply_text("Input tidak ditemukan.")
+        sitename_closest_matches = None
+        siteid_closest_matches = None
+        
+        # Memeriksa apakah pesan cocok dengan site name atau site id
+        if message.upper() in user_state[user]['site_name_list'] and message.upper() != user_state[user]['site_name'] and message.upper() != user_state[user]['site_id']:
+            await update.message.reply_text("You can move sites with the /site command!")
+        elif message.upper() in user_state[user]['site_id_list'] and message.upper() != user_state[user]['site_name'] and message.upper() != user_state[user]['site_id']:
+            await update.message.reply_text("You can move sites with the /site command!")
+        else:
+            if message.upper() not in user_state[user]['site_name_list'] and message.upper() not in user_state[user]['site_id_list']:
+                sitename_closest_matches = get_closest_matches(message.upper(), user_state[user]['site_name_list'])
+                siteid_closest_matches = get_closest_matches(message.upper(), user_state[user]['site_id_list'])
+                
+                if sitename_closest_matches:
+                    suggestions = ", ".join(sitename_closest_matches)
+                    await update.message.reply_text(
+                        f"Did you mean: `{suggestions}`?\n\n *Note: You can copy the suggestion above to the clipboard*",
+                        parse_mode='MarkdownV2'
+                    )
 
-        # if message.upper() in user_state[user]['site_id_list']:
-        #     print("Input ditemukan di site_id_list.")
-        # else:
-        #     # Fuzzy matching jika input tidak ditemukan dalam daftar
-        #     closest_matches = get_closest_matches(message.upper(), user_state[user]['site_id_list'])
-        #     if closest_matches:
-        #         suggestions = ", ".join(closest_matches)
-        #         await update.message.reply_text(f"Mungkin maksud Anda: {suggestions}?")
-        #     else:
-        #         await update.message.reply_text("Input tidak ditemukan.")
+                elif siteid_closest_matches:
+                    suggestions = ", ".join(siteid_closest_matches)
+                    await update.message.reply_text(
+                        f"Did you mean: `{suggestions}`?\n\n *Note: You can copy the suggestion above to the clipboard*",
+                        parse_mode='MarkdownV2'
+                    )
+
+                else:
+                    # Kondisi di mana tidak ada saran yang ditemukan
+                    question = update.message.text.upper()
+                    answer = answer_question(message, user_state[user]['context'])
+                    print(answer)
+                    
+                    if answer:
+                        await update.message.reply_text(answer)
+                        
+                        first_name = update.message.from_user.first_name  # Nama depan
+                        last_name = update.message.from_user.last_name    # Nama belakang
+                        user_name = f"{first_name} {last_name}"   
+                        log_to_spreadsheet(user_name, question, answer, user_state[user]['password_access'], user_state[user]['site_name'])
+                    else:
+                        keyboard = [
+                            [InlineKeyboardButton("Profile", callback_data='profile_site'),
+                            InlineKeyboardButton("Stats", callback_data='statistics'),
+                            InlineKeyboardButton("Maps", callback_data='maps')],
+                            [InlineKeyboardButton("Chart", callback_data='chart_site'),
+                            InlineKeyboardButton("Summary", callback_data='summarize')],
+                        ]
+                        reply_markup = InlineKeyboardMarkup(keyboard)
+                        await update.message.reply_text("Answer not found")
+                        await update.message.reply_text(
+                            f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                            reply_markup=reply_markup
+                        )
+
+
 
         keywords = ["chart", "graph", "grafik", "trend", "tren", "diagram", "statistik"]
         if any(keyword in message.lower() for keyword in keywords):
-    # lakukan sesuatu
 
             await handle_chart(update, context)
             return  # Hentikan eksekusi setelah menampilkan chart
@@ -129,38 +162,7 @@ async def handle_message(update: Update, context):
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
-    if message and message != user_state[user]['site_name'] and message != user_state[user]['site_id']:
-        print(f'pesan : {message}')
-        if user in user_state:
-            if 'site_name' in user_state[user]:
-                print(f'site name : {user_state[user]["site_name"]}')
-            else:
-                print("site_name belum diinisialisasi.")
-
-            if 'site_id' in user_state[user]:
-                print(f'site id : {user_state[user]["site_id"]}')
-            else:
-                print("site_id belum diinisialisasi.")
-        else:
-            print("User belum terdaftar di user_state.")
-
-        question = update.message.text.upper()
-        if question and question != user_state[user]['site_name'] and question != user_state[user]['site_id'] : 
-            answer = answer_question(message, user_state[user]['context'])
-            print(answer)
-            if answer:
-                await update.message.reply_text(answer)
-                
-                first_name = update.message.from_user.first_name  # Nama depan
-                last_name = update.message.from_user.last_name    # Nama belakang
-                user_name = f"{first_name} {last_name}"   
-                log_to_spreadsheet(user_name, question, answer, user_state[user]['password_access'],user_state[user]['site_name'] )  
-
-            else:
-                await update.message.reply_text(
-                    f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
-                    reply_markup=reply_markup
-                )
+    
 
         
     if user_state[user].get("just_returned_home", False):
