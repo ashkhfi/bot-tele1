@@ -20,33 +20,20 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_state[user]['menu'] = 'profil'
         formatted_text = process_data(user_state[user]['context'], return_type='profile')
         await query.message.reply_text(formatted_text, parse_mode=ParseMode.HTML)
-        keyboard = [
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
+        user_state[user]['menu'] = 'home'
 
     elif query.data == 'statistics':
         user_state[user]['menu'] = 'stat'
         formatted_text = process_data(user_state[user]['context'], return_type='statistical')
         await query.message.reply_text(formatted_text, parse_mode=ParseMode.HTML)
-        keyboard = [
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
+        user_state[user]['menu'] = 'home'
 
     elif query.data == 'maps':
         user_state[user]['menu'] = 'maps'
         coordinates = answer_question("coordinate?", user_state[user]['context'])
         if coordinates:
             await query.message.reply_text(f"{coordinates}")
-            # Inline keyboard for maps
-            keyboard = [
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]  
-            ]
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
+            user_state[user]['menu'] = 'home'
         else:
             await query.message.reply_text(f"Coordinates not found.")
 
@@ -83,17 +70,15 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             df = get_data_chart(conn, user_state[user]['site_name'], 6)  # Mendapatkan data 7 hari terakhir
             if df.empty:
                 await query.message.reply_text("No data found")
+                user_state[user]['menu'] = 'home'
             else:
                 a = generate_summary_report(df)
                 await query.message.reply_text(a)
+                user_state[user]['menu'] = 'home'
         else:
             await query.message.reply_text("Failed to connect database")
+            user_state[user]['menu'] = 'home'
 
-        keyboard = [
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-        ]
-        reply_markup = InlineKeyboardMarkup(keyboard)
-        await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
 
     elif query.data == 'back_to_menu':
         user_state[user]['menu'] = 'home'

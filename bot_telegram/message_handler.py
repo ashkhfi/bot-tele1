@@ -152,6 +152,12 @@ async def handle_message(update: Update, context):
             return  # Hentikan eksekusi setelah menampilkan chart
 
         # Membuat keyboard menu
+        
+        
+    
+
+        
+    if user_state[user].get("just_returned_home", False):
         keyboard = [
             [InlineKeyboardButton("Profile", callback_data='profile_site'),
             InlineKeyboardButton("Stats", callback_data='statistics'),
@@ -161,11 +167,6 @@ async def handle_message(update: Update, context):
             # [InlineKeyboardButton("Back to Start", callback_data='start')]
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        
-    
-
-        
-    if user_state[user].get("just_returned_home", False):
         await update.message.reply_text(
             f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:", 
             reply_markup=reply_markup

@@ -51,46 +51,53 @@ def process_data(data_string, return_type='profile'):
     # Mengonversi string menjadi dictionary
     data_dict = {}
     for item in data_string.split(';'):
-        if item.strip():  # Mengabaikan string kosong
+        if ':' in item:  # Memastikan item memiliki karakter ':'
             key, value = item.split(':', 1)
             data_dict[key.strip()] = value.strip()
+        elif item.strip():  # Menangani item yang tidak sesuai format tetapi tidak kosong
+            print(f"Warning: Item '{item}' tidak sesuai format 'key:value' dan akan diabaikan.")
 
     # Menyusun data profil dan statistik ke dalam dua variabel terpisah dengan nilai diapit <b>
-    profile_data = (
-        f"site name: <b>{data_dict['site_name']}</b>\n"
-        f"enodeb id: <b>{data_dict['enodeb_id']}</b>\n"
-        f"site id: <b>{data_dict['site_id']}</b>\n"
-        f"mc: <b>{data_dict['mc']}</b>\n"
-        f"region: <b>{data_dict['region']}</b>\n"
-        f"regency: <b>{data_dict['kabupaten']}</b>\n"
-        f"tac: <b>{data_dict['tac']}</b>\n"
-        f"transport: <b>{data_dict['transport']}</b>\n"
-        f"azimuth: <b>{data_dict['azimuth']}</b>\n"
-        f"hub type: <b>{data_dict['hub_type']}</b>\n"
-        f"field type: <b>{data_dict['field_type']}</b>\n"
-        f"site class: <b>{data_dict['site_class']}</b>\n"
-        f"hostname: <b>{data_dict['hostname']}</b>\n"
-        f"antenna height: <b>{data_dict['antenna_height']}</b>\n"
-        f"number cell congested: <b>{data_dict['number_cell_congested']}</b>\n"
-        f"category: <b>{data_dict['category']}</b>\n"
-    )
+    try:
+        profile_data = (
+            f"site name: <b>{data_dict['site_name']}</b>\n"
+            f"enodeb id: <b>{data_dict['enodeb_id']}</b>\n"
+            f"site id: <b>{data_dict['site_id']}</b>\n"
+            f"mc: <b>{data_dict['mc']}</b>\n"
+            f"region: <b>{data_dict['region']}</b>\n"
+            f"regency: <b>{data_dict['kabupaten']}</b>\n"
+            f"tac: <b>{data_dict['tac']}</b>\n"
+            f"transport: <b>{data_dict['transport']}</b>\n"
+            f"azimuth: <b>{data_dict['azimuth']}</b>\n"
+            f"hub type: <b>{data_dict['hub_type']}</b>\n"
+            f"field type: <b>{data_dict['field_type']}</b>\n"
+            f"site class: <b>{data_dict['site_class']}</b>\n"
+            f"hostname: <b>{data_dict['hostname']}</b>\n"
+            f"antenna height: <b>{data_dict['antenna_height']}</b>\n"
+            f"number cell congested: <b>{data_dict['number_cell_congested']}</b>\n"
+            f"category: <b>{data_dict['category']}</b>\n"
+        )
 
-    statistical_data = (
-        f"traffic 3id: <b>{data_dict['traffic_3id']}</b>\n"
-        f"traffic  im3: <b>{data_dict['traffic_im3']}</b>\n"
-        f"total traffic(GB): <b>{data_dict['total_traffic_gb']}</b>\n"
-        f"prb: <b>{data_dict['prb']}</b>\n"
-        f"eut: <b>{data_dict['eut']}</b>\n"
-        f"ran config: <b>{data_dict['ran_config']}</b>"
-    )
+        statistical_data = (
+            f"traffic 3id: <b>{data_dict['traffic_3id']}</b>\n"
+            f"traffic  im3: <b>{data_dict['traffic_im3']}</b>\n"
+            f"total traffic(GB): <b>{data_dict['total_traffic_gb']}</b>\n"
+            f"prb: <b>{data_dict['prb']}</b>\n"
+            f"eut: <b>{data_dict['eut']}</b>\n"
+            f"ran config: <b>{data_dict['ran_config']}</b>"
+        )
 
-    # Menggabungkan keduanya dalam satu variabel sesuai return_type
-    if return_type == 'profile':
-        return profile_data
-    elif return_type == 'statistical':
-        return statistical_data
-    else:
-        return "Invalid return type specified. Use 'profile' or 'statistical'."
+        # Menggabungkan keduanya dalam satu variabel sesuai return_type
+        if return_type == 'profile':
+            return profile_data
+        elif return_type == 'statistical':
+            return statistical_data
+        else:
+            return "Invalid return type specified. Use 'profile' or 'statistical'."
+    except KeyError as e:
+        # Menangani jika ada key yang hilang di data_dict
+        return f"Error: Key {str(e)} tidak ditemukan di data. Pastikan format data sudah benar."
+
 
 def is_coordinate(coord_str):
     pattern = r'^-?\s*[1-8]?\s*[0-9]\s*(?:\.\s*\d+)?\s*,\s*-?\s*(?:[1-9]?[0-9]|1[0-7][0-9]|180)\s*(?:\.\s*\d+)?$'
