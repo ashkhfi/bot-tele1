@@ -37,6 +37,11 @@ def set_context(conn, site_name):
                 f"number_cell_congested: {data[20]}; "
                 f"prb: {data[21]}; "
                 f"eut: {data[22]}; "
+                f"recti_qty: {data[23]}; "
+                f"battery_bank: {data[24]}; "
+                f"backup_category: {data[25]}; "
+                f"pln_cap: {data[26]}; "
+                f"billing_pln: {data[27]}; "
                 f"unrelated : data not found;. "
             )
         else:

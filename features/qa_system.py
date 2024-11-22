@@ -38,6 +38,8 @@ def answer_question(question, context):
     answer_ids = inputs['input_ids'][0][start_idx:end_idx+1]
     answer = tokenizer.decode(answer_ids, skip_special_tokens=True)
     answer = answer.upper()
+    if len(answer) > 200:
+        answer = "I don't know"
 
     if is_coordinate(answer):
         answer = ''.join(answer.split())

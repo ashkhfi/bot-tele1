@@ -75,8 +75,8 @@ async def site(update: Update, context: ContextTypes.DEFAULT_TYPE):
             """This is a site data chatbot, First time, you will need to enter the site ID or site name,
 
 To help you find The Right Site , please use search command:
-- by siteid : <b>@quicksite_bot</b><i>[space]</i><b> id </b><i>[space]</i><b> siteid</b>
-- by sitename : <b>@quicksite_bot</b><i>[space]</i><b> site </b><i>[space]</i><b> sitename</b>
+- by siteid : <b>@quicksite_bot</b><i>[space]</i> <b>id</b> <i>[space]</i><b> siteid</b>
+- by sitename : <b>@quicksite_bot</b><i>[space]</i> <b>name</b> <i>[space]</i><b> sitename</b>
 
 Chat is only in english!"""
         ,parse_mode=ParseMode.HTML,reply_markup=ReplyKeyboardRemove()

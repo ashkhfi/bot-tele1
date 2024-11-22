@@ -79,7 +79,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text("Failed to connect database")
             user_state[user]['menu'] = 'home'
 
-
     elif query.data == 'back_to_menu':
         user_state[user]['menu'] = 'home'
         user_state[user]["just_returned_home"] = True
@@ -95,7 +94,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup = InlineKeyboardMarkup(keyboard)
 
         await query.edit_message_text(f"What do you want to know about {user_state[user]['site_name']}?", reply_markup=reply_markup)
-
 
     elif query.data == 'start':
         user_state[user]['menu'] = 'start'
@@ -227,7 +225,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             f'PRB data of site {user_state[user]["site_name"]} Last {user_state[user]["time_chart"]} Days'
         )
 
-        # Cek apakah file 'chart.jpg' berhasil dibuat
         if os.path.exists('chart.jpg'):
             try:
                 with open('chart.jpg', 'rb') as chart_file:
@@ -242,8 +239,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                         os.remove('chart.jpg')
                     except Exception as e:
                         await context.bot.send_message(chat_id=query.message.chat_id, text=f"Error while deleting chart: {e}")
-            
-            # Tampilkan keyboard setelah mengirim chart
+
             keyboard = [
                 [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
                 [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')],
@@ -253,19 +249,16 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="Failed to generate chart. Please try again.")
 
-
     elif query.data == 'availability_chart':
         plot_data(
         user_state[user]['chart'], 
         'availability', 
         f'Availability data of site {user_state[user]["site_name"]} Last {user_state[user]["time_chart"]} Days'
         )
-
         if os.path.exists('chart.jpg'):
             with open('chart.jpg', 'rb') as chart_file:
                 await context.bot.send_photo(chat_id=query.message.chat_id, photo=chart_file)
             os.remove('chart.jpg')
-             # Tambahkan keyboard setelah mengirim chart
             keyboard = [
                 [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
                 [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
@@ -274,7 +267,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="Failed to generate chart. Please try again.")
-
     elif query.data == 'eut_chart':
         plot_data(
         user_state[user]['chart'], 

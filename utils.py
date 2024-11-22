@@ -105,29 +105,6 @@ def is_coordinate(coord_str):
     return bool(match)
 
 
-def log_to_csv(user, question, answer):
-        # Nama file CSV
-        filename = 'user_questions_log.csv'
-
-        # Cek apakah file sudah ada, jika tidak, buat file dengan header
-        file_exists = os.path.isfile(filename)
-        
-        # Ambil tanggal saat ini
-        current_date = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Mengambil tanggal dan waktu saat ini
-        print(current_date)  # Menampilkan hasil
-        
-        # Buka atau buat file CSV
-        with open(filename, mode='a', newline='') as file:
-            writer = csv.writer(file)
-            
-            # Jika file baru dibuat, tuliskan header
-            if not file_exists:
-                writer.writerow(['User', 'Date', 'Question', 'Answer'])
-            
-            # Tulis data pengguna, tanggal, pertanyaan, dan jawaban
-            writer.writerow([user, current_date, question, answer])
-
-
 def log_to_spreadsheet(user, question, answer, password, site):
     try:
         # Definisikan scope dan autentikasi
