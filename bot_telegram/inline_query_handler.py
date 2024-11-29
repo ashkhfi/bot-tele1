@@ -13,7 +13,8 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
     results = []
     # Memastikan query mengandung kata 'site'
     if 'name' in query.lower():
-        search_query = query.lower().split('site', 1)[1].strip()
+
+        search_query = query.lower().split('name', 1)[1].strip()
 
         if user in user_state and 'df' in user_state[user]:
             df = user_state[user]['df']
@@ -49,7 +50,29 @@ async def inline_query_handler(update: Update, context: ContextTypes.DEFAULT_TYP
                         input_message_content=InputTextMessageContent(row['site_name']),
                         thumbnail_url='https://firebasestorage.googleapis.com/v0/b/point-of-sale-3639a.appspot.com/o/site.png?alt=media&token=882c52e2-b574-4046-9fc1-4c3f272d9a70',
                         thumbnail_width=512,  
-                        thumbnail_height=512
+                        thumbnail_height=512 
+                    )
+                )
+
+    if 'enodeb' in query.lower():
+        # Mengambil bagian query setelah kata 'id'
+        search_query = query.lower().split('enodeb', 1)[1].strip()
+
+        if user in user_state and 'df' in user_state[user]:
+            df = user_state[user]['df']
+            df['enodeb_id'] = df['enodeb_id'].astype(str)
+            matching_sites = df[df['enodeb_id'].str.contains(search_query, na=False)]
+
+            for index, row in matching_sites.iterrows():
+                results.append(
+                    InlineQueryResultArticle(
+                        id=str(row['enodeb_id']),  # Pastikan id unik
+                        title=str(row['enodeb_id']),     # Tampilkan nama situs
+                        description=(row['site_name']),
+                        input_message_content=InputTextMessageContent(row['site_name']),
+                        thumbnail_url='https://firebasestorage.googleapis.com/v0/b/point-of-sale-3639a.appspot.com/o/site.png?alt=media&token=882c52e2-b574-4046-9fc1-4c3f272d9a70',
+                        thumbnail_width=512,  
+                        thumbnail_height=512 
                     )
                 )
 

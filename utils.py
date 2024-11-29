@@ -9,6 +9,7 @@ from google.oauth2.service_account import Credentials
 import os
 import csv
 from bot_telegram.commands import start
+import emoji
 
 logger = logging.getLogger(__name__)
 
@@ -39,7 +40,7 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.error(f"Update {update} caused error {context.error}")
 
 def get_site_name(conn):
-    query = "SELECT DISTINCT site_name, site_id, coordinate FROM magang_dataset;"
+    query = "SELECT DISTINCT site_name, site_id, coordinate, enodeb_id FROM magang_dataset;"
     try:
         df = pd.read_sql_query(query, conn)
         return df
@@ -47,7 +48,7 @@ def get_site_name(conn):
         print(f"Error saat mengambil data: {e}")
         return None
 
-def process_data(data_string, return_type='profile'):
+def process_data(data_string):
     # Mengonversi string menjadi dictionary
     data_dict = {}
     for item in data_string.split(';'):
@@ -57,43 +58,44 @@ def process_data(data_string, return_type='profile'):
         elif item.strip():  # Menangani item yang tidak sesuai format tetapi tidak kosong
             print(f"Warning: Item '{item}' tidak sesuai format 'key:value' dan akan diabaikan.")
 
-    # Menyusun data profil dan statistik ke dalam dua variabel terpisah dengan nilai diapit <b>
     try:
-        profile_data = (
-            f"site name: <b>{data_dict['site_name']}</b>\n"
-            f"enodeb id: <b>{data_dict['enodeb_id']}</b>\n"
-            f"site id: <b>{data_dict['site_id']}</b>\n"
-            f"mc: <b>{data_dict['mc']}</b>\n"
-            f"region: <b>{data_dict['region']}</b>\n"
-            f"regency: <b>{data_dict['kabupaten']}</b>\n"
-            f"tac: <b>{data_dict['tac']}</b>\n"
-            f"transport: <b>{data_dict['transport']}</b>\n"
-            f"azimuth: <b>{data_dict['azimuth']}</b>\n"
-            f"hub type: <b>{data_dict['hub_type']}</b>\n"
-            f"field type: <b>{data_dict['field_type']}</b>\n"
-            f"site class: <b>{data_dict['site_class']}</b>\n"
-            f"hostname: <b>{data_dict['hostname']}</b>\n"
-            f"antenna height: <b>{data_dict['antenna_height']}</b>\n"
-            f"number cell congested: <b>{data_dict['number_cell_congested']}</b>\n"
-            f"category: <b>{data_dict['category']}</b>\n"
+        all_data = (
+            f"site name: <b>{data_dict.get('site_name', 'N/A')}</b>\n"
+            f"enodeb id: <b>{data_dict.get('enodeb_id', 'N/A')}</b>\n"
+            f"site id: <b>{data_dict.get('site_id', 'N/A')}</b>\n"
+            f"mc: <b>{data_dict.get('mc', 'N/A')}</b>\n"
+            f"region: <b>{data_dict.get('region', 'N/A')}</b>\n"
+            f"regency: <b>{data_dict.get('regency', 'N/A')}</b>\n"
+            f"coordinate: <b>{data_dict.get('coordinate', 'N/A')}</b>\n"
+            f"tac: <b>{data_dict.get('tac', 'N/A')}</b>\n"
+            f"antenna height: <b>{data_dict.get('antenna_height', 'N/A')}</b>\n"
+            f"hostname: <b>{data_dict.get('hostname', 'N/A')}</b>\n"
+            f"site class: <b>{data_dict.get('site_class', 'N/A')}</b>\n"
+            f"transport: <b>{data_dict.get('transport', 'N/A')}</b>\n"
+            f"azimuth: <b>{data_dict.get('azimuth', 'N/A')}</b>\n"
+            f"hub type: <b>{data_dict.get('hub_type', 'N/A')}</b>\n"
+            f"field type: <b>{data_dict.get('field_type', 'N/A')}</b>\n"
+            f"category: <b>{data_dict.get('category', 'N/A')}</b>\n"
+            f"number cell congested: <b>{data_dict.get('number_cell_congested', 'N/A')}</b>\n"
+            f"traffic 3id: <b>{data_dict.get('traffic_3id', 'N/A')}</b>\n"
+            f"traffic im3: <b>{data_dict.get('traffic_im3', 'N/A')}</b>\n"
+            f"total traffic(GB): <b>{data_dict.get('total_traffic_gb', 'N/A')}</b>\n"
+            f"prb: <b>{data_dict.get('prb', 'N/A')}</b>\n"
+            f"eut: <b>{data_dict.get('eut', 'N/A')}</b>\n"
+            f"ran config: <b>{data_dict.get('ran_config', 'N/A')}</b>\n"
+            f"recti qty: <b>{data_dict.get('recti_qty', 'N/A')}</b>\n"
+            f"battery bank: <b>{data_dict.get('battery_bank', 'N/A')}</b>\n"
+            f"backup category: <b>{data_dict.get('backup_category', 'N/A')}</b>\n"
+            f"pln cap: <b>{data_dict.get('pln_cap', 'N/A')}</b>\n"
+            f"billing pln: <b>{data_dict.get('billing_pln', 'N/A')}</b>\n"
+            f"vlr subs 3id: <b>{data_dict.get('vlr_subs_3id', 'N/A')}</b>\n"
+            f"vlr subs im3: <b>{data_dict.get('vlr_subs_im3', 'N/A')}</b>\n"
+            f"vlr subs ioh: <b>{data_dict.get('vlr_subs_ioh', 'N/A')}</b>\n"
+            f"rev ioh: <b>{data_dict.get('rev_ioh', 'N/A')}</b>\n"
+            f"rev im3: <b>{data_dict.get('rev_im3', 'N/A')}</b>\n"
+            f"rev 3id: <b>{data_dict.get('rev_3id', 'N/A')}</b>\n"
         )
-
-        statistical_data = (
-            f"traffic 3id: <b>{data_dict['traffic_3id']}</b>\n"
-            f"traffic  im3: <b>{data_dict['traffic_im3']}</b>\n"
-            f"total traffic(GB): <b>{data_dict['total_traffic_gb']}</b>\n"
-            f"prb: <b>{data_dict['prb']}</b>\n"
-            f"eut: <b>{data_dict['eut']}</b>\n"
-            f"ran config: <b>{data_dict['ran_config']}</b>"
-        )
-
-        # Menggabungkan keduanya dalam satu variabel sesuai return_type
-        if return_type == 'profile':
-            return profile_data
-        elif return_type == 'statistical':
-            return statistical_data
-        else:
-            return "Invalid return type specified. Use 'profile' or 'statistical'."
+        return all_data
     except KeyError as e:
         # Menangani jika ada key yang hilang di data_dict
         return f"Error: Key {str(e)} tidak ditemukan di data. Pastikan format data sudah benar."
@@ -138,3 +140,9 @@ def log_to_spreadsheet(user, question, answer, password, site):
         
     except Exception as e:
         print(f"Terjadi kesalahan: {e}")
+
+def contains_any_emoji(text):
+    """
+    Memeriksa apakah string mengandung setidaknya satu emoji.
+    """
+    return any(emoji.is_emoji(char) for char in text)

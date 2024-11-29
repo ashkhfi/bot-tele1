@@ -10,40 +10,23 @@ def set_context(conn, site_name):
     try:
         cursor = conn.cursor()
         cursor.execute(query, (site_name,))
-        data = cursor.fetchone()  # Mengambil hanya satu baris
+        row = cursor.fetchone()  # Mengambil hanya satu baris
 
-        if data:
+        if row:
             formatted_data = (
-                f"enodeb_id: {data[0]}; "
-                f"site_id: {data[1]}; "
-                f"mc: {data[2]}; "
-                f"site_name: {data[3]}; "
-                f"tac: {data[4]}; "
-                f"region: {data[5]}; "
-                f"kabupaten: {data[6]}; "
-                f"antenna_height: {data[7]}; "
-                f"ran_config: {data[8]}; "
-                f"coordinate: {data[9]}; "
-                f"azimuth: {data[10]}; "
-                f"hostname: {data[11]}; "
-                f"transport: {data[12]}; "
-                f"site_class: {data[13]}; "
-                f"field_type: {data[14]}; "
-                f"hub_type: {data[15]}; "
-                f"traffic_3id: {data[16]}; "
-                f"traffic_im3: {data[17]}; "
-                f"total_traffic_gb: {data[18]}; "
-                f"category: {data[19]}; "
-                f"number_cell_congested: {data[20]}; "
-                f"prb: {data[21]}; "
-                f"eut: {data[22]}; "
-                f"recti_qty: {data[23]}; "
-                f"battery_bank: {data[24]}; "
-                f"backup_category: {data[25]}; "
-                f"pln_cap: {data[26]}; "
-                f"billing_pln: {data[27]}; "
-                f"unrelated : data not found;. "
-            )
+            f"enodeb_id: {row['enodeb_id']}; site_id: {row['site_id']}; mc: {row['mc']}; region: {row['region']}; "
+            f"regency: temp_{row['kabupaten']}; coordinate: {row['coordinate']}; tac: {row['tac']}; "
+            f"antenna_height: temp_{row['antenna_height']}; hostname: temp_{row['hostname']}; site_class: temp_{row['site_class']}; "
+            f"transport: temp_{row['transport']}; azimuth: {row['azimuth']}; hub_type: temp_{row['hub_type']}; "
+            f"field_type: temp_{row['field_type']}; category: temp_{row['category']}; "
+            f"number_cell_congested: temp_{row['number_cell_congested']}; site_name: temp_{row['site_name']}; "
+            f"traffic_3id: {row['traffic_3id']}; traffic_im3: {row['traffic_im3']}; total_traffic_gb: {row['total_traffic_gb']}; "
+            f"prb: temp_{row['prb']}; eut: temp_{row['eut']}; ran_config: temp_{row['ran_config']}; unrelated : data not found; "
+            f"recti_qty: temp_{row['recti_qty']}; battery_bank: temp_{row['battery_bank']}; backup_category: temp_{row['backup_category']}; "
+            f"pln_cap: temp_{row['pln_cap']}; billing_pln: cur_{row['billing_pln']}; "
+            f"vlr_subs_3id: {row['vlr_subs_3id']}; vlr_subs_im3: {row['vlr_subs_im3']}; vlr_subs_ioh: {row['vlr_subs_ioh']}; "
+            f"rev_ioh: {row['rev_ioh']}; rev_im3: {row['rev_im3']}; rev_3id: {row['rev_3id']}; tp : tlp;"
+        )
         else:
             formatted_data = "null"
 

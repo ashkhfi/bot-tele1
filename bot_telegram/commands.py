@@ -31,7 +31,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         df = get_site_name(conn)
         if df is not None:
             user_state[user]['df'] = df
-            print("data okey!!")
+            print(df)
             site_name_list = df['site_name'].tolist()
             site_id_list = df['site_id'].tolist()
             user_state[user]['site_name_list'] = site_name_list
@@ -43,11 +43,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if user in authorized_users:
         await update.message.reply_text(
-            """This is a site data chatbot, First time, you will need to enter the site ID or site name,
+       """This is a site data chatbot, First time, you will need to enter the site ID or site name,
 
 To help you find The Right Site , please use search command:
-- by siteid : <b>@quicksite_bot</b><i>[space]</i><b> id </b><i>[space]</i><b> siteid</b>
-- by sitename : <b>@quicksite_bot</b><i>[space]</i><b> site </b><i>[space]</i><b> sitename</b>
+- by siteid : <b>@quicksite_bot</b> <i>[space]</i> <b>id</b> <i>[space]</i> <b>siteid</b>
+- by sitename : <b>@quicksite_bot</b> <i>[space]</i> <b>name</b> <i>[space]</i> <b>sitename</b>
 
 Chat is only in english!"""
         ,parse_mode=ParseMode.HTML,reply_markup=ReplyKeyboardRemove()
@@ -72,11 +72,11 @@ async def site(update: Update, context: ContextTypes.DEFAULT_TYPE):
     user_state[user_id]['df'] = None
    
     await update.message.reply_text(
-            """This is a site data chatbot, First time, you will need to enter the site ID or site name,
+              """This is a site data chatbot, First time, you will need to enter the site ID or site name,
 
 To help you find The Right Site , please use search command:
-- by siteid : <b>@quicksite_bot</b><i>[space]</i> <b>id</b> <i>[space]</i><b> siteid</b>
-- by sitename : <b>@quicksite_bot</b><i>[space]</i> <b>name</b> <i>[space]</i><b> sitename</b>
+- by siteid : <b>@quicksite_bot</b> <i>[space]</i> <b>id</b> <i>[space]</i> <b>siteid</b>
+- by sitename : <b>@quicksite_bot</b> <i>[space]</i> <b>name</b> <i>[space]</i> <b>sitename</b>
 
 Chat is only in english!"""
         ,parse_mode=ParseMode.HTML,reply_markup=ReplyKeyboardRemove()
@@ -92,6 +92,55 @@ Chat is only in english!"""
     else:
         await update.message.reply_text("Failed to connect to the database.")
 
+async def help(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text(""" 
+<b>Panduan Penggunaan QuickSiteInfo Bot</b>
+
+Selamat datang di QuickSiteInfo Bot! Berikut adalah panduan lengkap cara menggunakan fitur-fitur yang tersedia:
+
+<b>1. Memulai Chatbot</b>
+
+- Gunakan perintah <code>/start</code> untuk memulai percakapan.
+- Setelah itu, Anda akan diminta memasukkan <i>password</i>. Pastikan password yang dimasukkan benar agar bisa melanjutkan.
+
+<b>2. Mencari Site</b>
+
+Setelah login berhasil, Anda dapat mencari informasi site menggunakan salah satu cara berikut:
+
+- <i>Berdasarkan Site ID</i>: Ketik <code>@quicksite_bot [spasi] id [spasi] SiteID</code>. Contoh:
+  <code>@quicksite_bot id 14BAG0021</code>.
+- <i>Berdasarkan Nama Site</i>: Ketik <code>@quicksite_bot [spasi] site [spasi] NamaSite</code>. Contoh:
+  <code>@quicksite_bot site krakhan_pl</code>.
+
+Setelah berhasil menemukan site, akan muncul <i>5 menu utama</i>:
+
+1. <i>Profile</i> – Menampilkan informasi detail site.
+2. <i>Statistic</i> – Menampilkan data statistik site.
+3. <i>Maps</i> – Menunjukkan lokasi site pada peta.
+4. <i>Chart</i> – Memberikan grafik performa site.
+5. <i>Summary</i> – Menampilkan ringkasan terkait site tersebut.
+
+Pilih menu yang sesuai untuk mendapatkan informasi yang Anda butuhkan.
+
+<b>3. Fitur Utama Chatbot</b>
+
+Chatbot ini memiliki 4 perintah utama:
+
+- <b>/start</b>: Memulai percakapan dari awal.
+- <b>/site</b>: Berpindah ke site lain.
+- <b>/help</b>: Menampilkan panduan penggunaan chatbot.
+  - Jika Anda mengalami kendala, coba lihat kembali panduan ini dengan mengetik <code>/help</code>.
+- <b>/near</b>: Mencari site terdekat dari lokasi Anda.
+  - <b>Cara kerja /near</b>: Setelah mengetik perintah <code>/near</code>, Anda perlu mengirimkan <i>lokasi</i> Anda ke chatbot.
+  - Chatbot akan memproses lokasi Anda dan menampilkan daftar site yang paling dekat dengan lokasi tersebut.
+
+<b>Catatan Tambahan</b>
+
+- Gunakan chatbot ini dalam <i>bahasa Inggris</i> untuk komunikasi yang lebih lancar.
+- Pastikan nama site atau Site ID yang Anda masukkan valid dan sesuai dengan data yang ada di sistem.
+- Jika mengalami masalah lebih lanjut, gunakan perintah <code>/help</code> atau hubungi admin untuk mendapatkan bantuan.
+
+    """, parse_mode=ParseMode.HTML)
 
 async def near(update: Update, context: ContextTypes.DEFAULT_TYPE):
     from main import user_state

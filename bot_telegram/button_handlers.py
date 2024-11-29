@@ -21,6 +21,18 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         formatted_text = process_data(user_state[user]['context'], return_type='profile')
         await query.message.reply_text(formatted_text, parse_mode=ParseMode.HTML)
         user_state[user]['menu'] = 'home'
+        keyboard = [
+                                [InlineKeyboardButton("Profile", callback_data='profile_site'),
+                                InlineKeyboardButton("Stats", callback_data='statistics'),
+                                InlineKeyboardButton("Maps", callback_data='maps')],
+                                [InlineKeyboardButton("Chart", callback_data='chart_site'),
+                                InlineKeyboardButton("Summary", callback_data='summarize')],
+                            ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await query.message.reply_text(
+                                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                                reply_markup=reply_markup
+                            )
 
     elif query.data == 'statistics':
         user_state[user]['menu'] = 'stat'
@@ -36,38 +48,36 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             user_state[user]['menu'] = 'home'
         else:
             await query.message.reply_text(f"Coordinates not found.")
+        
+        keyboard = [
+                                [InlineKeyboardButton("Profile", callback_data='profile_site'),
+                                InlineKeyboardButton("Stats", callback_data='statistics'),
+                                InlineKeyboardButton("Maps", callback_data='maps')],
+                                [InlineKeyboardButton("Chart", callback_data='chart_site'),
+                                InlineKeyboardButton("Summary", callback_data='summarize')],
+                            ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await query.message.reply_text(
+                                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                                reply_markup=reply_markup
+                            )
 
     elif query.data == 'chart_site':
         user_state[user]['menu'] = 'chart'
-        # user_message = update.message.text.lower()
-    
-        # Cek apakah `update` memiliki callback query atau tidak
-        # query = update.callback_query
-    
-        # # Jika `query` ada (dari tombol), lanjutkan ke proses callback
-        # if query:
-        #     await query.answer()  # Mengkonfirmasi bahwa query diterima
-        #     query.data = 'chart'  # Atur data callback ke 'chart_site'
-        # await query.message.reply_text("This feature is still maintenance")
-        # keyboard = [
-        #   [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-        #    InlineKeyboardButton("Back to Start", callback_data='start')]
-        # ]
-        # reply_markup = InlineKeyboardMarkup(keyboard)
-        # await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
         keyboard = [
-          [InlineKeyboardButton("7 Days", callback_data='7_days'),
-           InlineKeyboardButton("14 Days", callback_data='14_days'),
-           InlineKeyboardButton("1 Month", callback_data='1_month')],
-          [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-        ]
+                [InlineKeyboardButton("PRB", callback_data='prb_chart'),
+                InlineKeyboardButton("EUT", callback_data='eut_chart')],
+                [InlineKeyboardButton("Traffic", callback_data='traffic_chart'),
+                InlineKeyboardButton("Availability", callback_data='availability_chart')],
+                ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-        await query.message.reply_text("Please select a time range", reply_markup=reply_markup)
+        await query.message.reply_text("Please select the data", reply_markup=reply_markup)
+
     elif query.data == 'summarize':
         user_state[user]['menu'] = 'summary'
         conn = connect_to_postgres()
         if conn:
-            df = get_data_chart(conn, user_state[user]['site_name'], 6)  # Mendapatkan data 7 hari terakhir
+            df = get_data_chart(conn, user_state[user]['site_name'], 6)  
             if df.empty:
                 await query.message.reply_text("No data found")
                 user_state[user]['menu'] = 'home'
@@ -78,6 +88,18 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         else:
             await query.message.reply_text("Failed to connect database")
             user_state[user]['menu'] = 'home'
+        keyboard = [
+                                [InlineKeyboardButton("Profile", callback_data='profile_site'),
+                                InlineKeyboardButton("Stats", callback_data='statistics'),
+                                InlineKeyboardButton("Maps", callback_data='maps')],
+                                [InlineKeyboardButton("Chart", callback_data='chart_site'),
+                                InlineKeyboardButton("Summary", callback_data='summarize')],
+                            ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+        await query.message.reply_text(
+                                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                                reply_markup=reply_markup
+                            )
 
     elif query.data == 'back_to_menu':
         user_state[user]['menu'] = 'home'
@@ -92,8 +114,7 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             InlineKeyboardButton("Summary", callback_data='summarize')],
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
-
-        await query.edit_message_text(f"What do you want to know about {user_state[user]['site_name']}?", reply_markup=reply_markup)
+        await query.reply_text(f"What do you want to know about {user_state[user]['site_name']}?", reply_markup=reply_markup)
 
     elif query.data == 'start':
         user_state[user]['menu'] = 'start'
@@ -103,187 +124,91 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_state[user]['time_chart'] = None
 
         await query.message.reply_text("Please type directly the site name you want to know, or like this :\n@quicksite_bot <site name>.")
-
-    # elif query.data == 'data_profil':
-    #     formatted_text = process_data(user_state[user]['context'], return_type='profile')
-    #     await query.message.reply_text(formatted_text, parse_mode=ParseMode.HTML)
-    #     keyboard = [
-    #       [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-    #        InlineKeyboardButton("Back to Start", callback_data='start')]
-    #     ]
-    #     reply_markup = InlineKeyboardMarkup(keyboard)
-    #     await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
-
-    # elif query.data == 'data_statistik':
-    #     formatted_text = process_data(user_state[user]['context'], return_type='statistical')
-    #     await query.message.reply_text(formatted_text, parse_mode=ParseMode.HTML)
-    #     keyboard = [
-    #       [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu'),
-    #        InlineKeyboardButton("Back to Start", callback_data='start')]
-    #     ]
-    #     reply_markup = InlineKeyboardMarkup(keyboard)
-    #     await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
-
-    ##chart
-    elif query.data == '7_days':
-        user_state[user]['time_chart'] = 7
-        conn = connect_to_postgres()
-        if conn:
-            user_state[user]['chart'] = get_data_chart(conn, user_state[user]['site_name'], 7)  # Mendapatkan data 7 hari terakhir
-            if user_state[user]['chart'].empty:
-                keyboard = [
-                [InlineKeyboardButton("7 Days", callback_data='7_days'),
-                InlineKeyboardButton("14 Days", callback_data='14_days'),
-                InlineKeyboardButton("1 Month", callback_data='1_month')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-                ]
-                reply_markup = InlineKeyboardMarkup(keyboard)
-                
-                await query.message.reply_text("data not found", reply_markup=reply_markup)
-            else:
-                
-                keyboard = [
-                [InlineKeyboardButton("PRB", callback_data='prb_chart'),
-                InlineKeyboardButton("EUT", callback_data='eut_chart')],
-                [InlineKeyboardButton("Traffic", callback_data='traffic_chart'),
-                InlineKeyboardButton("Availability", callback_data='availability_chart')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-                ]
-                reply_markup = InlineKeyboardMarkup(keyboard)
-                await query.message.reply_text("Please select the data", reply_markup=reply_markup)
-        else:
-            await update.message.reply_text("Connection to database failed.")
-  
-
-    elif query.data == '14_days':
-        user_state[user]['time_chart'] = 14
-        conn = connect_to_postgres()
-        if conn:
-            user_state[user]['chart'] = get_data_chart(conn, user_state[user]['site_name'], 14)  # Mendapatkan data 7 hari terakhir
-            if user_state[user]['chart'].empty:
-                keyboard = [
-                [InlineKeyboardButton("7 Days", callback_data='7_days'),
-                InlineKeyboardButton("14 Days", callback_data='14_days'),
-                InlineKeyboardButton("1 Month", callback_data='1_month')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-                ]
-                reply_markup = InlineKeyboardMarkup(keyboard)
-                
-                await query.message.reply_text("data not found", reply_markup=reply_markup)
-            else:
-                
-                keyboard = [
-                [InlineKeyboardButton("PRB", callback_data='prb_chart'),
-                InlineKeyboardButton("EUT", callback_data='eut_chart')],
-                [InlineKeyboardButton("Traffic", callback_data='traffic_chart'),
-                InlineKeyboardButton("Availability", callback_data='availability_chart')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-                ]
-                reply_markup = InlineKeyboardMarkup(keyboard)
-                await query.message.reply_text("Please select the data", reply_markup=reply_markup)
-        else:
-            await update.message.reply_text("Connection to database failed.")
-  
-
-    elif query.data == '1_month':
-        user_state[user]['time_chart'] = 30
-        conn = connect_to_postgres()
-        if conn:
-            user_state[user]['chart'] = get_data_chart(conn, user_state[user]['site_name'], 30)  # Mendapatkan data 7 hari terakhir
-            if user_state[user]['chart'].empty:
-                keyboard = [
-                [InlineKeyboardButton("7 Days", callback_data='7_days'),
-                InlineKeyboardButton("14 Days", callback_data='14_days'),
-                InlineKeyboardButton("1 Month", callback_data='1_month')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-                ]
-                reply_markup = InlineKeyboardMarkup(keyboard)
-                
-                await query.message.reply_text("data not found", reply_markup=reply_markup)
-            else:
-                
-                keyboard = [
-                [InlineKeyboardButton("PRB", callback_data='prb_chart'),
-                InlineKeyboardButton("EUT", callback_data='eut_chart')],
-                [InlineKeyboardButton("Traffic", callback_data='traffic_chart'),
-                InlineKeyboardButton("Availability", callback_data='availability_chart')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-                ]
-                reply_markup = InlineKeyboardMarkup(keyboard)
-                await query.message.reply_text("Please select the data", reply_markup=reply_markup)
-        else:
-            await update.message.reply_text("Connection to database failed.")
-  
-
-
+        
+        
         # data chart
     elif query.data == 'prb_chart':
         # Plot data untuk 'prb_chart'
+        print(user_state[user]['menu'])
         plot_data(
             user_state[user]['chart'], 
             'dl_prb', 
-            f'PRB data of site {user_state[user]["site_name"]} Last {user_state[user]["time_chart"]} Days'
+            f'PRB data of site {user_state[user]["site_name"]} Last 1 Month'
         )
-
         if os.path.exists('chart.jpg'):
-            try:
-                with open('chart.jpg', 'rb') as chart_file:
-                    # Kirim file chart ke pengguna
-                    await context.bot.send_photo(chat_id=query.message.chat_id, photo=chart_file)
-            except Exception as e:
-                await context.bot.send_message(chat_id=query.message.chat_id, text=f"Error while sending chart: {e}")
-            finally:
-                # Hapus file setelah dikirim
-                if os.path.exists('chart.jpg'):
-                    try:
-                        os.remove('chart.jpg')
-                    except Exception as e:
-                        await context.bot.send_message(chat_id=query.message.chat_id, text=f"Error while deleting chart: {e}")
-
-            keyboard = [
-                [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')],
-            ]
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
+            with open('chart.jpg', 'rb') as chart_file:
+                await context.bot.send_photo(chat_id=query.message.chat_id, photo=chart_file)
+                user_state[user]['menu'] = 'home'
+                print(user_state[user]['menu'])
+                keyboard = [
+                                [InlineKeyboardButton("Profile", callback_data='profile_site'),
+                                InlineKeyboardButton("Stats", callback_data='statistics'),
+                                InlineKeyboardButton("Maps", callback_data='maps')],
+                                [InlineKeyboardButton("Chart", callback_data='chart_site'),
+                                InlineKeyboardButton("Summary", callback_data='summarize')],
+                            ]
+                reply_markup = InlineKeyboardMarkup(keyboard)
+                await query.message.reply_text(
+                                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                                reply_markup=reply_markup
+                            )
+            os.remove('chart.jpg')
+            
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="Failed to generate chart. Please try again.")
+                
 
     elif query.data == 'availability_chart':
         plot_data(
         user_state[user]['chart'], 
         'availability', 
-        f'Availability data of site {user_state[user]["site_name"]} Last {user_state[user]["time_chart"]} Days'
-        )
+        f'Availability data of site {user_state[user]["site_name"]} Last 1 Month')
         if os.path.exists('chart.jpg'):
             with open('chart.jpg', 'rb') as chart_file:
                 await context.bot.send_photo(chat_id=query.message.chat_id, photo=chart_file)
+                user_state[user]['menu'] = 'home'
+                keyboard = [
+                                [InlineKeyboardButton("Profile", callback_data='profile_site'),
+                                InlineKeyboardButton("Stats", callback_data='statistics'),
+                                InlineKeyboardButton("Maps", callback_data='maps')],
+                                [InlineKeyboardButton("Chart", callback_data='chart_site'),
+                                InlineKeyboardButton("Summary", callback_data='summarize')],
+                            ]
+                reply_markup = InlineKeyboardMarkup(keyboard)
+                await query.message.reply_text(
+                                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                                reply_markup=reply_markup
+                            )
             os.remove('chart.jpg')
-            keyboard = [
-                [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-            ]
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
+            
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="Failed to generate chart. Please try again.")
+
     elif query.data == 'eut_chart':
         plot_data(
         user_state[user]['chart'], 
         'eut', 
-        f'EUT data of site {user_state[user]["site_name"]} Last {user_state[user]["time_chart"]} Days'
+        f'EUT data of site {user_state[user]["site_name"]} Last 1 Month'
         )
         if os.path.exists('chart.jpg'):
             with open('chart.jpg', 'rb') as chart_file:
                 await context.bot.send_photo(chat_id=query.message.chat_id, photo=chart_file)
+                user_state[user]['menu'] = 'home'
+                keyboard = [
+                                [InlineKeyboardButton("Profile", callback_data='profile_site'),
+                                InlineKeyboardButton("Stats", callback_data='statistics'),
+                                InlineKeyboardButton("Maps", callback_data='maps')],
+                                [InlineKeyboardButton("Chart", callback_data='chart_site'),
+                                InlineKeyboardButton("Summary", callback_data='summarize')],
+                            ]
+                reply_markup = InlineKeyboardMarkup(keyboard)
+                await query.message.reply_text(
+                                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                                reply_markup=reply_markup
+                            )
             os.remove('chart.jpg')
-             # Tambahkan keyboard setelah mengirim chart
-            keyboard = [
-                [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-            ]
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
+            
+            
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="Failed to generate chart. Please try again.")
 
@@ -291,18 +216,25 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         plot_data(
         user_state[user]['chart'], 
         'traffic_gb', 
-        f'Traffic data of site {user_state[user]["site_name"]} Last {user_state[user]["time_chart"]} Days'
+        f'Traffic data of site {user_state[user]["site_name"]} Last 1 Month'
         )
         if os.path.exists('chart.jpg'):
             with open('chart.jpg', 'rb') as chart_file:
                 await context.bot.send_photo(chat_id=query.message.chat_id, photo=chart_file)
+                user_state[user]['menu'] = 'home'
+                keyboard = [
+                                [InlineKeyboardButton("Profile", callback_data='profile_site'),
+                                InlineKeyboardButton("Stats", callback_data='statistics'),
+                                InlineKeyboardButton("Maps", callback_data='maps')],
+                                [InlineKeyboardButton("Chart", callback_data='chart_site'),
+                                InlineKeyboardButton("Summary", callback_data='summarize')],
+                            ]
+                reply_markup = InlineKeyboardMarkup(keyboard)
+                await query.message.reply_text(
+                                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                                reply_markup=reply_markup
+                            )
             os.remove('chart.jpg')
-             # Tambahkan keyboard setelah mengirim chart
-            keyboard = [
-                [InlineKeyboardButton("Back to Time Range", callback_data='chart_site')],
-                [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-            ]
-            reply_markup = InlineKeyboardMarkup(keyboard)
-            await query.message.reply_text("What would you like to do next?", reply_markup=reply_markup)
+            
         else:
             await context.bot.send_message(chat_id=query.message.chat_id, text="Failed to generate chart. Please try again.")

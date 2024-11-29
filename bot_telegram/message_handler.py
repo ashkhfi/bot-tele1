@@ -5,13 +5,15 @@ from datetime import datetime, timezone
 import logging
 import pytz
 import re
-from utils import check_password, log_to_csv, log_to_spreadsheet
+from utils import check_password, log_to_spreadsheet, contains_any_emoji
 from features.qa_system import answer_question
+
 from config import connect_to_postgres
-from data_handler import set_context
+from data_handler import set_context, get_data_chart
 from .button_handlers import button
 from fuzzywuzzy import fuzz
 from fuzzywuzzy import process
+import emoji
 # Konfigurasi logger
 timezone = pytz.timezone("Asia/Jakarta")
 logger = logging.getLogger(__name__)
@@ -32,6 +34,8 @@ async def handle_message(update: Update, context):
         await check_password(update, context)
         return
 
+
+    #set context
     if user_state[user]['menu'] == 'start':
         conn = connect_to_postgres()
         if conn:
@@ -49,6 +53,7 @@ async def handle_message(update: Update, context):
                     site_name = site_row.iloc[0]['site_name'].upper() 
                     user_state[user]['site_name'] = site_name
                     user_state[user]['context'] = set_context(conn, site_name)
+                    user_state[user]['chart'] = get_data_chart(conn, site_name, 31) 
                     print(f"Site ID: {site_id} ditemukan. Nama situs: {site_name}")
                 else:
                     await update.message.reply_text("Site not found")
@@ -68,14 +73,12 @@ async def handle_message(update: Update, context):
                         site_id = matching_site.iloc[0]['site_id'].upper() 
                         user_state[user]['site_id'] = site_id
                         user_state[user]['context'] = set_context(conn, site_name)
+                        user_state[user]['chart'] = get_data_chart(conn, site_name, 31) 
                         print(f"Site ID {site_id} ditemukan untuk site_name '{site_name}'.")
                     else:
                         print(f"Tidak ada data yang cocok untuk site_name '{site_name}'.")
                 else:
                     print("DataFrame pengguna tidak tersedia atau kosong.")
-
-                # Set context berdasarkan `site_name`
-
 
             if user_state[user]['context'] != None:
                 user_state[user]['menu'] = 'home'
@@ -91,7 +94,6 @@ async def handle_message(update: Update, context):
         sitename_closest_matches = None
         siteid_closest_matches = None
         
-        # Memeriksa apakah pesan cocok dengan site name atau site id
         if message.upper() in user_state[user]['site_name_list'] and message.upper() != user_state[user]['site_name'] and message.upper() != user_state[user]['site_id']:
             await update.message.reply_text("You can move sites with the /site command!")
         elif message.upper() in user_state[user]['site_id_list'] and message.upper() != user_state[user]['site_name'] and message.upper() != user_state[user]['site_id']:
@@ -116,47 +118,73 @@ async def handle_message(update: Update, context):
                     )
 
                 else:
-                    # Kondisi di mana tidak ada saran yang ditemukan
-                    question = update.message.text.upper()
-                    answer = answer_question(message, user_state[user]['context'])
-                    print(answer)
+
+                    keywords_chart = ["chart", "graph", "trend", "tren"]
+                    keywords_nearest = ["surrounding", "near", "nearest"]
+                    keywords_home = ["home", "menu"]
+                    keywords_help = ["help", "help?"]
+
+                    #menangani inputan yang berhubungan dengan chart
+                    if any(keyword in message.lower() for keyword in keywords_chart):
+                        await handle_chart(update, context)
+                        return  
                     
-                    if answer:
-                        await update.message.reply_text(answer)
-                        
-                        first_name = update.message.from_user.first_name  # Nama depan
-                        last_name = update.message.from_user.last_name    # Nama belakang
-                        user_name = f"{first_name} {last_name}"   
-                        log_to_spreadsheet(user_name, question, answer, user_state[user]['password_access'], user_state[user]['site_name'])
-                    else:
+                    #menangani inputan yang berhubungan nearest site
+                    elif any(keyword in message.lower() for keyword in keywords_nearest):
+                        await update.message.reply_text("to use the feature to find the nearest site you can use the /site command")
+                    
+                    #menangani inputan yang berhubungan help
+                    elif any(keyword in message.lower() for keyword in keywords_help):
+                        await update.message.reply_text("Use the /help command to view the bot guide")
+                    
+                    #menangani inputan yang berhubungan dengan home atau menu untuk memunculkan menu
+                    elif any(keyword in message.lower() for keyword in keywords_home):
                         keyboard = [
-                            [InlineKeyboardButton("Profile", callback_data='profile_site'),
-                            InlineKeyboardButton("Stats", callback_data='statistics'),
-                            InlineKeyboardButton("Maps", callback_data='maps')],
-                            [InlineKeyboardButton("Chart", callback_data='chart_site'),
-                            InlineKeyboardButton("Summary", callback_data='summarize')],
-                        ]
+                                [InlineKeyboardButton("Profile", callback_data='profile_site'),
+                                InlineKeyboardButton("Stats", callback_data='statistics'),
+                                InlineKeyboardButton("Maps", callback_data='maps')],
+                                [InlineKeyboardButton("Chart", callback_data='chart_site'),
+                                InlineKeyboardButton("Summary", callback_data='summarize')],
+                            ]
                         reply_markup = InlineKeyboardMarkup(keyboard)
-                        await update.message.reply_text("Answer not found")
                         await update.message.reply_text(
-                            f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
-                            reply_markup=reply_markup
-                        )
+                                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                                reply_markup=reply_markup
+                            )
 
+                    #menangani inputan emoji
+                    elif contains_any_emoji(message): 
+                        await update.message.reply_text("not allowed to input emoticons!!!")
+                        return  
+                    
+                    else:
+                        #model menjawab pertanyaan dari user
+                        question = update.message.text.upper()
+                        answer = answer_question(message, user_state[user]['context'])
+                        print(answer)
+                        
+                        if answer:
+                            await update.message.reply_text(answer)
+                            first_name = update.message.from_user.first_name  # Nama depan
+                            last_name = update.message.from_user.last_name    # Nama belakang
+                            user_name = f"{first_name} {last_name}"   
+                            log_to_spreadsheet(user_name, question, answer, user_state[user]['password_access'], user_state[user]['site_name'])
+                        else:
+                            keyboard = [
+                                [InlineKeyboardButton("Profile", callback_data='profile_site'),
+                                InlineKeyboardButton("Stats", callback_data='statistics'),
+                                InlineKeyboardButton("Maps", callback_data='maps')],
+                                [InlineKeyboardButton("Chart", callback_data='chart_site'),
+                                InlineKeyboardButton("Summary", callback_data='summarize')],
+                            ]
+                            reply_markup = InlineKeyboardMarkup(keyboard)
+                            await update.message.reply_text("Answer not found")
+                            await update.message.reply_text(
+                                f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                                reply_markup=reply_markup
+                            )
 
-
-        keywords = ["chart", "graph", "grafik", "trend", "tren", "diagram", "statistik"]
-        if any(keyword in message.lower() for keyword in keywords):
-
-            await handle_chart(update, context)
-            return  # Hentikan eksekusi setelah menampilkan chart
-
-        # Membuat keyboard menu
-        
-        
-    
-
-        
+                    
     if user_state[user].get("just_returned_home", False):
         keyboard = [
             [InlineKeyboardButton("Profile", callback_data='profile_site'),
@@ -174,7 +202,7 @@ async def handle_message(update: Update, context):
         user_state[user]["just_returned_home"] = False
 
 async def handle_chart(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    user_message = update.message.text.lower()
+    # user_message = update.message.text.lower()
     
     # Cek apakah `update` memiliki callback query atau tidak
     query = update.callback_query
@@ -186,13 +214,11 @@ async def handle_chart(update: Update, context: ContextTypes.DEFAULT_TYPE):
     
     # Tampilan menu chart untuk pengguna
     keyboard = [
-        [InlineKeyboardButton("7 Days", callback_data='7_days'),
-         InlineKeyboardButton("14 Days", callback_data='14_days'),
-         InlineKeyboardButton("1 Month", callback_data='1_month')],
-        [InlineKeyboardButton("Back to Menu", callback_data='back_to_menu')]
-    ]
+                [InlineKeyboardButton("PRB", callback_data='prb_chart'),
+                InlineKeyboardButton("EUT", callback_data='eut_chart')],
+                [InlineKeyboardButton("Traffic", callback_data='traffic_chart'),
+                InlineKeyboardButton("Availability", callback_data='availability_chart')],
+                ]
     reply_markup = InlineKeyboardMarkup(keyboard)
-    await update.message.reply_text("Please select a time range", reply_markup=reply_markup)
-
-
+    await query.message.reply_text("Please select the data", reply_markup=reply_markup)
 
