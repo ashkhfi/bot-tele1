@@ -18,12 +18,11 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if query.data == 'profile_site':
         user_state[user]['menu'] = 'profil'
-        formatted_text = process_data(user_state[user]['context'], return_type='profile')
+        formatted_text = process_data(user_state[user]['context'])
         await query.message.reply_text(formatted_text, parse_mode=ParseMode.HTML)
         user_state[user]['menu'] = 'home'
         keyboard = [
                                 [InlineKeyboardButton("Profile", callback_data='profile_site'),
-                                InlineKeyboardButton("Stats", callback_data='statistics'),
                                 InlineKeyboardButton("Maps", callback_data='maps')],
                                 [InlineKeyboardButton("Chart", callback_data='chart_site'),
                                 InlineKeyboardButton("Summary", callback_data='summarize')],
@@ -34,11 +33,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                                 reply_markup=reply_markup
                             )
 
-    elif query.data == 'statistics':
-        user_state[user]['menu'] = 'stat'
-        formatted_text = process_data(user_state[user]['context'], return_type='statistical')
-        await query.message.reply_text(formatted_text, parse_mode=ParseMode.HTML)
-        user_state[user]['menu'] = 'home'
 
     elif query.data == 'maps':
         user_state[user]['menu'] = 'maps'
@@ -51,7 +45,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         
         keyboard = [
                                 [InlineKeyboardButton("Profile", callback_data='profile_site'),
-                                InlineKeyboardButton("Stats", callback_data='statistics'),
                                 InlineKeyboardButton("Maps", callback_data='maps')],
                                 [InlineKeyboardButton("Chart", callback_data='chart_site'),
                                 InlineKeyboardButton("Summary", callback_data='summarize')],
@@ -90,7 +83,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
             user_state[user]['menu'] = 'home'
         keyboard = [
                                 [InlineKeyboardButton("Profile", callback_data='profile_site'),
-                                InlineKeyboardButton("Stats", callback_data='statistics'),
                                 InlineKeyboardButton("Maps", callback_data='maps')],
                                 [InlineKeyboardButton("Chart", callback_data='chart_site'),
                                 InlineKeyboardButton("Summary", callback_data='summarize')],
@@ -108,7 +100,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
         user_state[user]['time_chart'] = None
         keyboard = [
             [InlineKeyboardButton("Profile", callback_data='profile_site'),
-            InlineKeyboardButton("Stats", callback_data='statistics'),
             InlineKeyboardButton("Maps", callback_data='maps')],
             [InlineKeyboardButton("Chart", callback_data='chart_site'),
             InlineKeyboardButton("Summary", callback_data='summarize')],
@@ -142,7 +133,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 print(user_state[user]['menu'])
                 keyboard = [
                                 [InlineKeyboardButton("Profile", callback_data='profile_site'),
-                                InlineKeyboardButton("Stats", callback_data='statistics'),
                                 InlineKeyboardButton("Maps", callback_data='maps')],
                                 [InlineKeyboardButton("Chart", callback_data='chart_site'),
                                 InlineKeyboardButton("Summary", callback_data='summarize')],
@@ -169,7 +159,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 user_state[user]['menu'] = 'home'
                 keyboard = [
                                 [InlineKeyboardButton("Profile", callback_data='profile_site'),
-                                InlineKeyboardButton("Stats", callback_data='statistics'),
                                 InlineKeyboardButton("Maps", callback_data='maps')],
                                 [InlineKeyboardButton("Chart", callback_data='chart_site'),
                                 InlineKeyboardButton("Summary", callback_data='summarize')],
@@ -196,7 +185,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 user_state[user]['menu'] = 'home'
                 keyboard = [
                                 [InlineKeyboardButton("Profile", callback_data='profile_site'),
-                                InlineKeyboardButton("Stats", callback_data='statistics'),
                                 InlineKeyboardButton("Maps", callback_data='maps')],
                                 [InlineKeyboardButton("Chart", callback_data='chart_site'),
                                 InlineKeyboardButton("Summary", callback_data='summarize')],
@@ -224,7 +212,6 @@ async def button(update: Update, context: ContextTypes.DEFAULT_TYPE):
                 user_state[user]['menu'] = 'home'
                 keyboard = [
                                 [InlineKeyboardButton("Profile", callback_data='profile_site'),
-                                InlineKeyboardButton("Stats", callback_data='statistics'),
                                 InlineKeyboardButton("Maps", callback_data='maps')],
                                 [InlineKeyboardButton("Chart", callback_data='chart_site'),
                                 InlineKeyboardButton("Summary", callback_data='summarize')],

@@ -106,7 +106,12 @@ def is_coordinate(coord_str):
     match = re.match(pattern, coord_str)
     return bool(match)
 
-
+def is_billing(text):
+    # Pola regex untuk mencocokkan 'cur_' diikuti angka
+    pattern = r"cur\s*_\s*\d+"
+    match = re.match(pattern, text)
+    return bool(match)
+    
 def log_to_spreadsheet(user, question, answer, password, site):
     try:
         # Definisikan scope dan autentikasi

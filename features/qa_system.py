@@ -1,8 +1,8 @@
 import torch
 from transformers import BertForQuestionAnswering, BertTokenizer
-from utils import is_coordinate
-model = BertForQuestionAnswering.from_pretrained('Ashkh0099/my-bert-new-version-5.0')
-tokenizer = BertTokenizer.from_pretrained('Ashkh0099/my-bert-new-version-5.0')
+from utils import is_coordinate, is_billing
+model = BertForQuestionAnswering.from_pretrained('Ashkh0099/my-bert-new-version-6.0')
+tokenizer = BertTokenizer.from_pretrained('Ashkh0099/my-bert-new-version-6.0')
 
 def answer_question(question, context):
     """Answer the question based on the site context."""
@@ -35,15 +35,34 @@ def answer_question(question, context):
     # Jika confidence score di bawah threshold, kembalikan jawaban default
     if start_confidence < threshold or end_confidence < threshold:
         return "I don't know"
+
+    # Ambil jawaban berdasarkan start dan end indeks
     answer_ids = inputs['input_ids'][0][start_idx:end_idx+1]
     answer = tokenizer.decode(answer_ids, skip_special_tokens=True)
-    answer = answer.upper()
+
+    # Menampilkan pertanyaan dan jawaban
+    print(f"Question: {question}")
+    print(f"Answer: {answer}")
+
     if len(answer) > 200:
         answer = "I don't know"
 
-    if is_coordinate(answer):
-        answer = ''.join(answer.split())
-        answer = f"https://www.google.com/maps?q={answer}"
-        return answer
+    # Format jawaban ke dalam bentuk "cur _ <angka>"
+    if "cur" in answer:
+        print("cur terdeteksi")
+        # Menghapus "cur _ " dari teks dan mengonversi sisa teks ke format rupiah
+        answer = answer.replace("cur _ ", "").strip()
+        try:
+            number = int(answer)  # Mengonversi teks ke angka
+            answer = f"Rp {number:,.0f}".replace(",", ".")  # Format ke rupiah
+        except ValueError:
+            print("Error: Teks setelah 'cur _' bukan angka valid.")
+            answer = "Invalid format"
 
+    if answer == "tlp":
+        answer = "please look into sitename!!!"
+
+    # Menampilkan hasil akhir
+    answer = answer.upper()
     return answer.replace("temp _ ", "").strip()
+

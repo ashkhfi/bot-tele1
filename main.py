@@ -10,12 +10,7 @@ import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
 
-logger = logging.getLogger(__name__)
-logging.basicConfig(
-    filename='bot.log',  # Nama file log
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO
-)
+
 
 
 user_state = {}
@@ -25,14 +20,14 @@ PASSWORD_2 = "indosat"
 PASSWORD_3 = "Usertest234"
 
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    logger.error(msg="Exception while handling an update:", exc_info=context.error)
+    print("Exception while handling an update:")
 
 
 def main():
     try:
         token = '7617596594:AAFyiPhJU4lcaBsbFgdTjdxKPPXV4dHiUqI'
         if not token:
-            logger.error("Token bot tidak ditemukan. Pastikan token diatur di variabel lingkungan.")
+            print("Token bot tidak ditemukan. Pastikan token diatur di variabel lingkungan.")
             return
 
         application = ApplicationBuilder().token(token).build()
@@ -48,10 +43,10 @@ def main():
         # Menambahkan handler untuk error
         application.add_error_handler(error_handler)
 
-        logger.info("Bot is polling...")
+        print("Bot is polling...")
         application.run_polling()
     except Exception as e:
-        logger.error("Unexpected error in main(): %s", e)
+        print("Unexpected error in main(): %s", e)
 
 
 

@@ -4,10 +4,11 @@ from telegram.ext import ContextTypes
 from datetime import datetime, timezone
 import logging
 import pytz
+import os
 import re
 from utils import check_password, log_to_spreadsheet, contains_any_emoji
 from features.qa_system import answer_question
-
+from features.chart_system import plot_data
 from config import connect_to_postgres
 from data_handler import set_context, get_data_chart
 from .button_handlers import button
@@ -126,6 +127,7 @@ async def handle_message(update: Update, context):
 
                     #menangani inputan yang berhubungan dengan chart
                     if any(keyword in message.lower() for keyword in keywords_chart):
+                        print("handlr chart")
                         await handle_chart(update, context)
                         return  
                     
@@ -141,7 +143,6 @@ async def handle_message(update: Update, context):
                     elif any(keyword in message.lower() for keyword in keywords_home):
                         keyboard = [
                                 [InlineKeyboardButton("Profile", callback_data='profile_site'),
-                                InlineKeyboardButton("Stats", callback_data='statistics'),
                                 InlineKeyboardButton("Maps", callback_data='maps')],
                                 [InlineKeyboardButton("Chart", callback_data='chart_site'),
                                 InlineKeyboardButton("Summary", callback_data='summarize')],
@@ -172,7 +173,6 @@ async def handle_message(update: Update, context):
                         else:
                             keyboard = [
                                 [InlineKeyboardButton("Profile", callback_data='profile_site'),
-                                InlineKeyboardButton("Stats", callback_data='statistics'),
                                 InlineKeyboardButton("Maps", callback_data='maps')],
                                 [InlineKeyboardButton("Chart", callback_data='chart_site'),
                                 InlineKeyboardButton("Summary", callback_data='summarize')],
@@ -188,7 +188,7 @@ async def handle_message(update: Update, context):
     if user_state[user].get("just_returned_home", False):
         keyboard = [
             [InlineKeyboardButton("Profile", callback_data='profile_site'),
-            InlineKeyboardButton("Stats", callback_data='statistics'),
+            
             InlineKeyboardButton("Maps", callback_data='maps')],
             [InlineKeyboardButton("Chart", callback_data='chart_site'),
             InlineKeyboardButton("Summary", callback_data='summarize')],
@@ -202,23 +202,99 @@ async def handle_message(update: Update, context):
         user_state[user]["just_returned_home"] = False
 
 async def handle_chart(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # user_message = update.message.text.lower()
-    
-    # Cek apakah `update` memiliki callback query atau tidak
-    query = update.callback_query
-    
-    # Jika `query` ada (dari tombol), lanjutkan ke proses callback
-    if query:
-        await query.answer()  # Mengkonfirmasi bahwa query diterima
-        query.data = 'chart'  # Atur data callback ke 'chart_site'
-    
-    # Tampilan menu chart untuk pengguna
-    keyboard = [
-                [InlineKeyboardButton("PRB", callback_data='prb_chart'),
-                InlineKeyboardButton("EUT", callback_data='eut_chart')],
-                [InlineKeyboardButton("Traffic", callback_data='traffic_chart'),
-                InlineKeyboardButton("Availability", callback_data='availability_chart')],
-                ]
-    reply_markup = InlineKeyboardMarkup(keyboard)
-    await query.message.reply_text("Please select the data", reply_markup=reply_markup)
+    try:
+        from main import user_state
 
+        # Ambil data pengguna
+        user = None
+        if update.message:
+            user = update.message.from_user.id
+        elif update.callback_query:
+            user = update.callback_query.from_user.id
+
+        if not user:
+            print("Unable to identify user.")
+            return
+
+        # Debug log
+        print(f"user_state: {user_state}")
+        print(f"user data: {user_state.get(user, 'No user data')}")
+
+        # Daftar kata kunci berdasarkan kategori
+        keywords_traffic = ['traffic', 'traffik', 'trafik', 'trafic']
+        keywords_prb = ['rb', 'prb']
+        keywords_availability = ['availability']
+        keywords_eut = ['eut', 'throughput']
+
+        # Cek apakah pembaruan berasal dari callback atau pesan teks
+        input_data = None
+        if update.callback_query:
+            query = update.callback_query
+            await query.answer()
+            input_data = query.data.lower()
+            print(f"Processing callback query: {input_data}")
+        elif update.message:
+            input_data = update.message.text.lower()
+            print(f"Processing message text: {input_data}")
+        else:
+            print("Unknown update type")
+            return
+
+        # Logika pemrosesan berdasarkan input
+        if 'chart' in input_data:
+            if any(keyword in input_data for keyword in keywords_traffic):
+                await process_chart(context, update, user_state, user, 'traffic', 'traffic_gb')
+                return
+            elif any(keyword in input_data for keyword in keywords_prb):
+                await process_chart(context, update, user_state, user, 'PRB', 'dl_prb')
+                return
+            elif any(keyword in input_data for keyword in keywords_availability):
+                await process_chart(context, update, user_state, user, 'Availability', 'availability')
+                return
+            elif any(keyword in input_data for keyword in keywords_eut):
+                await process_chart(context, update, user_state, user, 'EUT', 'eut')
+                return
+            else:
+                # Jika hanya 'chart' tanpa kategori, tampilkan keyboard
+                keyboard = [
+                    [InlineKeyboardButton("PRB", callback_data='chart prb'),
+                     InlineKeyboardButton("EUT", callback_data='chart eut')],
+                    [InlineKeyboardButton("Traffic", callback_data='chart traffic'),
+                     InlineKeyboardButton("Availability", callback_data='chart availability')],
+                ]
+                reply_markup = InlineKeyboardMarkup(keyboard)
+                await context.bot.send_message(chat_id=update.effective_chat.id, text="Please select the data", reply_markup=reply_markup)
+    except Exception as e:
+        print(f"Exception occurred: {e}")
+
+
+async def process_chart(context, update, user_state, user, chart_type, chart_key):
+    """
+    Proses chart berdasarkan tipe.
+    """
+    plot_data(
+        user_state[user]['chart'],
+        chart_key,
+        f'{chart_type} data of site {user_state[user]["site_name"]} Last 1 Month'
+    )
+
+    if os.path.exists('chart.jpg'):
+        with open('chart.jpg', 'rb') as chart_file:
+            await context.bot.send_photo(chat_id=update.effective_chat.id, photo=chart_file)
+            user_state[user]['menu'] = 'home'
+
+            keyboard = [
+                [InlineKeyboardButton("Profile", callback_data='profile_site'),
+                 InlineKeyboardButton("Maps", callback_data='maps')],
+                [InlineKeyboardButton("Chart", callback_data='chart_site'),
+                 InlineKeyboardButton("Summary", callback_data='summarize')],
+            ]
+            reply_markup = InlineKeyboardMarkup(keyboard)
+            await context.bot.send_message(
+                chat_id=update.effective_chat.id,
+                text=f"Please choose one of the menu below to get information about {user_state[user]['site_name']}:",
+                reply_markup=reply_markup
+            )
+        os.remove('chart.jpg')
+    else:
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="Failed to generate chart. Please try again.")
