@@ -63,6 +63,8 @@ def answer_question(question, context):
         answer = "please look into sitename!!!"
 
     # Menampilkan hasil akhir
-    answer = answer.upper()
-    return answer.replace("temp _ ", "").strip()
+    final_answer = answer.upper().replace("TEMP _ ", "").strip()
+    print(f"Final Answer: {final_answer}")
+    return final_answer
+
 

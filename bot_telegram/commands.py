@@ -48,6 +48,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 To help you find The Right Site , please use search command:
 - by siteid : <b>@quicksite_bot</b> <i>[space]</i> <b>id</b> <i>[space]</i> <b>siteid</b>
 - by sitename : <b>@quicksite_bot</b> <i>[space]</i> <b>name</b> <i>[space]</i> <b>sitename</b>
+- by enodeb id : <b>@quicksite_bot</b> <i>[space]</i> <b>enodeb</b> <i>[space]</i> <b>enodeb id</b>
 
 Chat is only in english!"""
         ,parse_mode=ParseMode.HTML,reply_markup=ReplyKeyboardRemove()
@@ -77,6 +78,7 @@ async def site(update: Update, context: ContextTypes.DEFAULT_TYPE):
 To help you find The Right Site , please use search command:
 - by siteid : <b>@quicksite_bot</b> <i>[space]</i> <b>id</b> <i>[space]</i> <b>siteid</b>
 - by sitename : <b>@quicksite_bot</b> <i>[space]</i> <b>name</b> <i>[space]</i> <b>sitename</b>
+- by enodeb id : <b>@quicksite_bot</b> <i>[space]</i> <b>enodeb</b> <i>[space]</i> <b>enodeb id</b>
 
 Chat is only in english!"""
         ,parse_mode=ParseMode.HTML,reply_markup=ReplyKeyboardRemove()

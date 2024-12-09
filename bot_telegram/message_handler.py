@@ -122,12 +122,12 @@ async def handle_message(update: Update, context):
 
                     keywords_chart = ["chart", "graph", "trend", "tren"]
                     keywords_nearest = ["surrounding", "near", "nearest"]
-                    keywords_home = ["home", "menu"]
+                    keywords_home = ["home", "menu", "back"]
                     keywords_help = ["help", "help?"]
 
                     #menangani inputan yang berhubungan dengan chart
                     if any(keyword in message.lower() for keyword in keywords_chart):
-                        print("handlr chart")
+                        print("handle chart")
                         await handle_chart(update, context)
                         return  
                     
@@ -241,7 +241,7 @@ async def handle_chart(update: Update, context: ContextTypes.DEFAULT_TYPE):
             return
 
         # Logika pemrosesan berdasarkan input
-        if 'chart' in input_data:
+        if any(word in input_data for word in ['chart', 'graph', 'trend', 'tren']):
             if any(keyword in input_data for keyword in keywords_traffic):
                 await process_chart(context, update, user_state, user, 'traffic', 'traffic_gb')
                 return
